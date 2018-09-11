@@ -7,13 +7,22 @@
  */
 
 import React, { Component} from 'react';
-import { Platform, StyleSheet, PixelRatio, Text, View} from 'react-native';
+import { 
+  Platform,
+  StyleSheet,
+  PixelRatio,
+  Text,
+  View
+} from 'react-native';
 import { hidden } from 'ansi-colors';
+import Header from './components/header';
 
 export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
+
+        <Header></Header>
 
         <View style={styles.plate}>
           <View style={styles.row}>
@@ -57,6 +66,52 @@ export default class App extends Component {
           </View>
         </View>
 
+
+        <List title="呵呵呵呵呵呵"></List>
+        <List title="呵呵呵呵呵呵"></List>
+        <List title="呵呵呵呵呵呵"></List>
+
+        <ImportantNews
+          news={[
+            '哈哈哈唂哈哈',
+            '啥哈哈呵呵呆在'
+          ]}
+        ></ImportantNews>
+
+      </View>
+    );
+  }
+}
+
+class List extends Component {
+  render() {
+    return (
+      <View style={styles.list_item}>
+        <Text style={styles.list_item_font}>{this.props.title}</Text>
+      </View>
+    );
+  }
+}
+
+class ImportantNews extends Component {
+  show(title){
+    alert(title);
+  }
+  render() {
+    let news = [];
+    for(let i in this.props.news){
+      let text = (
+        <Text
+          onPress={this.show.bind(this,this.props.news[i])}
+          numberOfLines={2}
+          style={styles.list_item_font}
+          >{this.props.news[i]}</Text>
+      );
+      news.push(text);
+    }
+    return (
+      <View style={styles.list_item}>
+        {news}
       </View>
     );
   }
@@ -70,7 +125,7 @@ const styles = StyleSheet.create({
   },
   plate: {
     height: 85*3,
-    marginVertical: 5,
+    marginVertical: 10,
     marginHorizontal: 5,
     overflow: 'hidden',
     overflow: 'hidden',
@@ -110,5 +165,11 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  list_item: {
+
+  },
+  list_item_font: {
+
   }
 });

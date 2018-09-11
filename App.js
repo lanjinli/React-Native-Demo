@@ -6,50 +6,109 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component} from 'react';
+import { Platform, StyleSheet, PixelRatio, Text, View} from 'react-native';
+import { hidden } from 'ansi-colors';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.box}></View>
-        <Text style={styles.welcome}>Welcome to React Native! lilanjin</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+
+        <View style={styles.plate}>
+          <View style={styles.row}>
+            <View style={[styles.item, styles.itemColor01]}>
+              <View style={styles.ite}><Text style={styles.font}>酒店</Text></View>
+            </View>
+            <View style={[styles.item, styles.itemColor01]}>
+              <View style={styles.ite}><Text style={styles.font}>海外酒店</Text></View>
+              <View style={styles.ite}><Text style={styles.font}>物价酒店</Text></View>
+            </View>
+            <View style={[styles.item, styles.itemColor01]}>
+              <View style={styles.ite}><Text style={styles.font}>团购</Text></View>
+              <View style={styles.ite}><Text style={styles.font}>民宿·客栈</Text></View>
+            </View>
+          </View>
+          <View style={styles.row}>
+            <View style={[styles.item, styles.itemColor02]}>
+              <View style={styles.ite}><Text style={styles.font}>机票</Text></View>
+            </View>
+            <View style={[styles.item, styles.itemColor02]}>
+              <View style={styles.ite}><Text style={styles.font}>火车票</Text></View>
+              <View style={styles.ite}><Text style={styles.font}>物价机票</Text></View>
+            </View>
+            <View style={[styles.item, styles.itemColor02]}>
+              <View style={styles.ite}><Text style={styles.font}>汽车票·船票</Text></View>
+              <View style={styles.ite}><Text style={styles.font}>专车·租车</Text></View>
+            </View>
+          </View>
+          <View style={[styles.row, { marginBottom: 0}]}>
+            <View style={[styles.item, styles.itemColor03]}>
+              <View style={styles.ite}><Text style={styles.font}>旅游</Text></View>
+            </View>
+            <View style={[styles.item, styles.itemColor03]}>
+              <View style={styles.ite}><Text style={styles.font}>门票</Text></View>
+              <View style={styles.ite}><Text style={styles.font}>目的地攻略</Text></View>
+            </View>
+            <View style={[styles.item, styles.itemColor03]}>
+              <View style={styles.ite}><Text style={styles.font}>邮轮旅行</Text></View>
+              <View style={styles.ite}><Text style={styles.font}>定制旅行</Text></View>
+            </View>
+          </View>
+        </View>
+
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  box: {
-    width: 360,
-    height: 360,
-    backgroundColor: '#000',
-  },
   container: {
+    flex: 1,
+    overflow: 'scroll',
+    backgroundColor: '#F5FCFF'
+  },
+  plate: {
+    height: 85*3,
+    marginVertical: 5,
+    marginHorizontal: 5,
+    overflow: 'hidden',
+    overflow: 'hidden',
+    borderRadius: 5,
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 84,
+    marginBottom: 2,
+  },
+  item: {
+    flex: 1,
+    height: 84,
+    marginVertical: 0,
+    marginHorizontal: 1/PixelRatio.get(),
+  },
+  itemColor01: {
+    backgroundColor: '#ff4e63'
+  },
+  itemColor02: {
+    backgroundColor: '#4b8fed'
+  },
+  itemColor03: {
+    backgroundColor: '#34c2aa'
+  },
+  ite: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    borderBottomWidth: 1/PixelRatio.get(),
+    borderColor: '#FFF',
+    
   },
-  welcome: {
-    fontSize: 20,
+  font: {
     textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    color: '#FFF',
+    fontSize: 14,
+    fontWeight: 'bold',
+  }
 });

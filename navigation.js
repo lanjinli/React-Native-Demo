@@ -5,27 +5,27 @@ import {
     PixelRatio,
     Text,
     View,
+    Button,
     TouchableOpacity
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import {
-    Navigator
-} from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 
 //定义首页
 class FirstPage extends Component {
     //点击进入下一页
     pressPush () {
-        let nextRoute = {
-            component: SeconPage
-        }
-        this.props.navigator.push(nextRoute);
+        this.props.navigation.navigate('Secon', { title: '首页传递的值' })
+    };
+    static navigationOptions = {
+        // 隐藏头部
+        header: () => null
     };
     render() {
         return (
             <View style={[styles.flex, {backgroundColor: 'yellow'}]}>
-                <TouchableOpacity style={[styles.btn]} onPress={this.pressPush}>
+                <TouchableOpacity style={[styles.btn]} onPress={this.pressPush.bind(this)}>
                     <Text>点击推出下一页面</Text>
                 </TouchableOpacity>
             </View>
@@ -37,12 +37,30 @@ class FirstPage extends Component {
 class SeconPage extends Component {
     //点击返回上一页
     pressPop() {
-        this.props.navigator.pop();
+        this.props.navigation.goBack();
     };
+    //标题设置
+    static navigationOptions = ({ navigation }) => ({
+        title: `${navigation.state.params.title}`,
+        headerRight: (
+            <Button
+                onPress={() => alert('This is a button Right!')}
+                title="Right"
+                color="#fff"
+            />
+        ),
+        headerLeft: (
+            <Button
+                onPress={() => alert('This is a button Left!')}
+                title="Left"
+                color="#fff"
+            />
+        )
+    });
     render() {
         return (
             <View style={[styles.flex, { backgroundColor: 'cyan' }]}>
-                <TouchableOpacity style={[styles.btn]} onPress={this.pressPop}>
+                <TouchableOpacity style={[styles.btn]} onPress={this.pressPop.bind(this)}>
                     <Text>点击返回一页面</Text>
                 </TouchableOpacity>
             </View>
@@ -50,49 +68,24 @@ class SeconPage extends Component {
     }
 }
 
-
-export default class LessonNavigator extends Component {
-    render() {
-        let rootRoute = {
-            component: FirstPage
-        };
-        return (
-            <Navigator
-                /*
-                第一步
-                initialRoute
-                这个指定默认页面
-                对象的属性是自定的，对象的内容会在renderScene方法中处理
-                备注：必须包含的属性
-                */
-                initialRoute={rootRoute}
-                /*
-                第二步
-                configureScene
-                场景渲染的设置 动画
-                */
-                configureScene={(route) => {
-                    return Navigator.SceneConfigs.PushFromRight;
-                }}
-                /*
-                第三步
-                renderScene
-                渲染场景
-                参数： route(第一步创建并设置给导航器的路由对象)
-                */
-                renderScene={(route, navigator) => {
-                    let Component = route.component;
-                    return (
-                        <Component
-                            navigator={navigator}
-                            route={route}
-                        />
-                    )
-                }}
-            />
-        );
+export default createStackNavigator(
+    {
+        First: FirstPage,
+        Secon: SeconPage,
+    },
+    {
+        initialRouteName: 'First',
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#0b56b1',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        }
     }
-}
+);
 
 const styles = StyleSheet.create({
     flex: {

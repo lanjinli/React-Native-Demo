@@ -9,14 +9,14 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import { createStackNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 
 
 //定义首页
 class FirstPage extends Component {
     //点击进入下一页
     pressPush () {
-        this.props.navigation.navigate('Secon', { title: '首页传递的值' })
+        this.props.navigation.navigate('Secon', { title: '首页传递的值' });
     };
     static navigationOptions = {
         // 隐藏头部
@@ -68,7 +68,7 @@ class SeconPage extends Component {
     }
 }
 
-export default createStackNavigator(
+export default StackNavigator(
     {
         First: FirstPage,
         Secon: SeconPage,
@@ -83,7 +83,10 @@ export default createStackNavigator(
             headerTitleStyle: {
                 fontWeight: 'bold',
             },
-        }
+            gesturesEnabled: true,
+        },
+        mode: 'card',
+        headerMode: 'screen'
     }
 );
 

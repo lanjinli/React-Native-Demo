@@ -15,7 +15,7 @@ import {
   View,
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import LessonNavigator from './navigation';
+import LessonNavigator from './drawer_navigation.js';
 
 export default class App extends Component {
   render() {

@@ -15,12 +15,12 @@ import {
   View,
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import LessonNavigator from './drawer_navigation.js';
+import Index from './components/index';
 
 export default class App extends Component {
   render() {
     return (
-      <LessonNavigator></LessonNavigator>
+      <Index></Index>
     );
   }
 }

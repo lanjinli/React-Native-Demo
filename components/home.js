@@ -9,89 +9,99 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import { DrawerNavigator } from 'react-navigation';
+import { StackNavigator, DrawerNavigator } from 'react-navigation';
+let Demensions = require('Dimensions');
+let { width, height } = Demensions.get('window');
+const TopHeight = Platform.select({
+    ios: 20,
+    android: 0,
+});
 
 //定义首页
-class FirstPage extends Component {
+class HomePage extends Component {
+
     static navigationOptions = {
-        title: '首页',
-        drawerLabel: '首页',
+        header: () => null
     };
-    //点击进入下一页
-    pressPush() {
-        this.props.navigation.openDrawer();
-    };
+
     render() {
         return (
-            <View style={[styles.flex, { backgroundColor: 'yellow' }]}>
-                <TouchableOpacity style={[styles.btn]} onPress={this.pressPush.bind(this)}>
-                    <Text>点击推出下一页面</Text>
-                </TouchableOpacity>
+            <View style={[styles.flex, { backgroundColor: '#FFF' }]}>
+                <View style={styles.header}>
+                    <View style={styles.h_nav}>
+                        <TouchableOpacity style={styles.h_n_btn}><Text>左</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.h_n_btn}><Text>右</Text></TouchableOpacity>
+                    </View>
+                    <View style={styles.h_title}>
+                        <Text style={styles.h_t_text}>Experience Centre</Text>
+                    </View>
+                </View>
+                <View style={styles.body}>
+                    <View style={styles.b_title}>
+                    </View>
+                </View>
             </View>
         );
     }
 }
 
-//定义下一页
-class SeconPage extends Component {
-    static navigationOptions = {
-        title: '通知',
-        drawerLabel: '通知',
-    };
-    //点击返回上一页
-    pressPop() {
-        this.props.navigation.navigate('First');
-    };
-    render() {
-        return (
-            <View style={[styles.flex, { backgroundColor: 'cyan' }]}>
-                <TouchableOpacity style={[styles.btn]} onPress={this.pressPop.bind(this)}>
-                    <Text>点击返回一页面</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-}
-
-export default DrawerNavigator(
+export default StackNavigator(
     {
-        First: {
-            screen: FirstPage,
-        },
-        Secon: {
-            screen: SeconPage
-        },
+        Home: {
+            screen: HomePage,
+        }
     },
     {
-        drawerWidth: 220, // 抽屉宽
-        drawerPosition: 'left', // 抽屉在左边还是右边
-        // contentComponent: CustomDrawerContentComponent,  // 自定义抽屉组件
-        contentOptions: {
-            initialRouteName: FirstPage, // 默认页面组件
-            activeTintColor: '#008AC9',  // 选中文字颜色
-            activeBackgroundColor: '#f5f5f5', // 选中背景颜色
-            inactiveTintColor: '#000',  // 未选中文字颜色
-            inactiveBackgroundColor: '#fff', // 未选中背景颜色
-            style: {  // 样式
-
-            }
-        }
+        initialRouteName: 'Home',
+        navigationOptions: {
+            header: () => null
+        },
+        mode: 'card',
+        headerMode: 'screen'
     }
 );
 
 const styles = StyleSheet.create({
     flex: {
+        paddingTop: TopHeight,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+    },
+    header: {
+        width: width,
+        backgroundColor: '#fff',
+        position: 'absolute',
+        top: TopHeight,
+    },
+    h_nav: {
+        height: 48,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    h_n_btn: {
+        width: 48,
+        height: 48,
+        backgroundColor: '#ccc',
+    },
+    h_title: {
+        height: 66,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    btn: {
-        width: 150,
-        height: 30,
-        borderColor: '#0089FF',
-        borderWidth: 1,
-        borderRadius: 3,
+    h_t_text: {
+        color: '#1d1d1d',
+        fontSize: 22,
+    },
+    body: {
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#000',
+        position: 'absolute',
+        top: 48 + TopHeight,
     }
+
 });

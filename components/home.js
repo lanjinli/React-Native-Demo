@@ -6,7 +6,8 @@ import {
     Text,
     View,
     Button,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
@@ -29,15 +30,22 @@ class HomePage extends Component {
             <View style={[styles.flex, { backgroundColor: '#FFF' }]}>
                 <View style={styles.header}>
                     <View style={styles.h_nav}>
-                        <TouchableOpacity style={styles.h_n_btn}><Text>左</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.h_n_btn}><Text>右</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.h_n_btn}>
+                            <Image style={{ width: 48, height: 48 }} source={require("../assets/images/icon_menu.png")} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.h_n_btn}>
+                            <Image style={{ width: 48, height: 48 }} source={require("../assets/images/icon_about.png")} />
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.h_title}>
                         <Text style={styles.h_t_text}>Experience Centre</Text>
                     </View>
                 </View>
                 <View style={styles.body}>
-                    <View style={styles.b_title}>
+                    <View style={styles.b_list}>
+                    </View>
+                    <View style={styles.b_foot}>
+                        <Text style={styles.b_f_text}>Experience Centre</Text>
                     </View>
                 </View>
             </View>
@@ -83,7 +91,6 @@ const styles = StyleSheet.create({
     h_n_btn: {
         width: 48,
         height: 48,
-        backgroundColor: '#ccc',
     },
     h_title: {
         height: 66,
@@ -102,6 +109,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         position: 'absolute',
         top: 48 + TopHeight,
+    },
+    b_list: {
+        
+    },
+    b_foot: {
+        height: 34,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    b_f_text: {
+        fontSize: 12,
+        color: '#bdbdbd',
     }
-
 });

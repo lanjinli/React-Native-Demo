@@ -36,7 +36,7 @@ class AdsPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            countdown: 0
+            countdown: 3
         }
     }
 
@@ -72,7 +72,7 @@ class AdsPage extends Component {
                 </StatusBar> */}
                 <Image source={require("../assets/images/home_ads.jpg")} style={styles.adsImg}/>
                 <View style={styles.slogan}>
-                    <Text style={styles.slogan_text}>简单的事变得简单，艰难的事变得可能</Text>
+                    <Text style={styles.slogan_text}>腾讯AI黑科技 一键可达</Text>
                 </View>
                 <TouchableOpacity style={[styles.skip]} onPress={this.getHomePage.bind(this)}>
                     <Text style={styles.skip_text}>{this.state.countdown}</Text>
@@ -110,14 +110,14 @@ const styles = StyleSheet.create({
     adsImg: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         width: width,
         height: null,
-        resizeMode: 'cover',
+        resizeMode: 'cover'
     },
     slogan: {
         width: width,
-        height: height/5,
+        height: width/4,
         backgroundColor: '#FFF',
         position: 'absolute',
         bottom: 0,
@@ -126,8 +126,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     slogan_text: {
-        fontSize: 14,
-        color: '#969696',
+        fontSize: 16,
+        // color: '#fff',
+        color: '#666',
     },
     skip: {
         position: 'absolute',

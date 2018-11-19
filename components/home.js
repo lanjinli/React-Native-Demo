@@ -146,27 +146,21 @@ class HomePage extends Component {
 //         headerMode: 'screen'
 //     }
 // );
-
-// 定义下一页
-// class SeconPage extends Component {
-//     static navigationOptions = {
-//         title: '通知',
-//         drawerLabel: '通知',
-//     };
-//     //点击返回上一页
-//     pressPop() {
-//         this.props.navigation.navigate('Home');
-//     };
-//     render() {
-//         return (
-//             <View style={[styles.flex, { backgroundColor: 'cyan' }]}>
-//                 <TouchableOpacity style={[styles.btn]} onPress={this.pressPop.bind(this)}>
-//                     <Text>点击返回一页面</Text>
-//                 </TouchableOpacity>
-//             </View>
-//         );
-//     }
-// }
+class CustomDrawerContentComponent extends Component {
+    //关闭侧栏抽屉
+    pressCloseDrawer() {
+        this.props.navigation.closeDrawer();
+    };
+    render() {
+        return (
+            <View style={[styles.flex, { backgroundColor: '#fff' }]}>
+                <TouchableOpacity style={[styles.btn]} onPress={this.pressCloseDrawer.bind(this)}>
+                    <Text>点击关闭侧栏抽屉</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+}
 
 export default DrawerNavigator(
     {
@@ -175,9 +169,9 @@ export default DrawerNavigator(
         }
     },
     {
-        drawerWidth: 220, // 抽屉宽
+        drawerWidth: 260, // 抽屉宽
         drawerPosition: 'left', // 抽屉在左边还是右边
-        // contentComponent: CustomDrawerContentComponent,  // 自定义抽屉组件
+        contentComponent: CustomDrawerContentComponent,  // 自定义抽屉组件
         contentOptions: {
             initialRouteName: HomePage, // 默认页面组件
             activeTintColor: '#008AC9',  // 选中文字颜色

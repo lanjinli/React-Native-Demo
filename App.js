@@ -15,12 +15,13 @@ import {
   View,
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import Index from './components/index';
+// import Welcome from './components/welcome';
+import { AppStackNavigator } from './navigators/AppNavigators';
 
 export default class App extends Component {
   render() {
     return (
-      <Index></Index>
+      <AppStackNavigator></AppStackNavigator>
     );
   }
 }

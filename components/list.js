@@ -14,7 +14,6 @@ import {
     Modal
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import { StackNavigator } from 'react-navigation';
 let Demensions = require('Dimensions');
 let { width, height } = Demensions.get('window');
 const TopHeight = Platform.select({
@@ -27,40 +26,10 @@ const OffsetHeader = Platform.select({
 });
 
 //定义列表
-class ListPage extends Component {
+export default class ListPage extends Component {
 
     static navigationOptions = {
         header: () => null
-    };
-
-    state = {
-        homeList: [
-            {
-                img: require('../assets/images/home_icon_01.png'),
-                title: '计算机视觉',
-                summary: '',
-                page: ''
-            },
-            {
-                img: require('../assets/images/home_icon_02.png'),
-                title: '自然语言处理',
-                summary: '',
-                page: ''
-            },
-            {
-                img: require('../assets/images/home_icon_03.png'),
-                title: '智能语音交互',
-                summary: '',
-                page: ''
-            },
-            {
-                img: require('../assets/images/home_icon_04.png'),
-                title: '底层硬件通讯',
-                summary: '',
-                page: ''
-            }
-        ],
-        modalInfoVisible: false
     };
 
     setModalInfoVisible(visible) {
@@ -72,80 +41,18 @@ class ListPage extends Component {
             <View style={[styles.flex, { backgroundColor: '#FFF' }]}>
                 <View style={styles.header}>
                     <View style={styles.h_nav}>
-                        <TouchableOpacity style={styles.h_n_btn} activeOpacity={0.7} onPress={() => (this.props.navigation.openDrawer())} >
-                            <Image style={{ width: 48, height: 48 }} source={require("../assets/images/icon_menu.png")} />
+                        <TouchableOpacity style={styles.h_n_btn} activeOpacity={0.7} onPress={() => (this.props.navigation.goBack())} >
+                            <Image style={{ width: 48, height: 48 }} source={require("../assets/images/icon_back.png")} />
                         </TouchableOpacity>
                         <View style={styles.h_title}>
-                            <Text style={styles.h_t_text}>腾讯AI体验中心jlj</Text>
+                            <Text style={styles.h_t_text}>列表</Text>
                         </View>
-                        <TouchableOpacity style={styles.h_n_btn} activeOpacity={0.7} onPress={() => {this.setModalInfoVisible(!this.state.modalInfoVisible)}}>
-                            <Image style={{ width: 48, height: 48 }} source={require("../assets/images/icon_about.png")} />
-                        </TouchableOpacity>
                     </View>
                 </View>
-                <ScrollView style={styles.body}>
-                    <View style={styles.b_list}>
-                        {
-                            this.state.homeList.map((item, index) => {
-                                return (<TouchableOpacity
-                                    style={styles.b_l_btn}
-                                    activeOpacity={0.9}
-                                    key={index}
-                                >
-                                    <LinearGradient start={{ x: 0.25, y: 0.25 }} end={{ x: 0.75, y: 0.75 }} colors={['#0079f4', '#1b4fd5']} style={styles.b_l_t_bg}>
-                                        <Image source={item.img} style={styles.b_l_btn_icon} />
-                                        <Text style={styles.b_l_btn_text}>{item.title}</Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>);
-                            })
-                        }
-                    </View>
-                    <View style={styles.b_foot}>
-                        <Text style={styles.b_f_text}>腾讯AI开放平台</Text>
-                    </View>
-                </ScrollView>
-                <Modal
-                    style={styles.modal_info}
-                    animationType='slide'
-                    transparent={false}
-                    visible={this.state.modalInfoVisible}
-                    onRequestClose={() => { this.setModalInfoVisible(!this.state.modalInfoVisible) }}
-                >
-                    <View style={styles.modal_hred}>
-                        <TouchableOpacity style={styles.modal_info_back} activeOpacity={0.7} onPress={() => { this.setModalInfoVisible(!this.state.modalInfoVisible) }}>
-                            <Image tintColor={'#808080'} style={{ width: 48, height: 48 }} source={require("../assets/images/icon_back.png")} />
-                        </TouchableOpacity>
-                    </View>
-                    <ScrollView style={styles.modal_body}>
-                        <Text style={styles.modal_title}>腾讯三大AI实验室  强大的技术基石</Text>
-                        <Text style={styles.modal_summary}>AI LAB</Text>
-                        <Text style={styles.modal_text}>腾讯AI Lab聚集全球数十位人工智能科学家、70位世界一流AI博士，专注机器学习、计算机视觉、语音识别、自然语言处理等人工智能领域的研究。</Text>
-                        <Text style={styles.modal_summary}>优图实验室</Text>
-                        <Text style={styles.modal_text}>优图实验室致力于人脸识别、图像识别及声音识别的技术研究和产品研发，拥有业界独创的活体检测技术，已为上百家企业提供服务。</Text>
-                        <Text style={styles.modal_summary}>微信AI</Text>
-                        <Text style={styles.modal_text}>微信AI致力于为语音识别、自然语言处理、计算机视觉、数据挖掘和机器学习等人工智能技术的发展带来革命性进步。</Text>
-                    </ScrollView>
-                </Modal>
             </View>
         );
     }
 }
-
-export default StackNavigator(
-    {
-        List: {
-            screen: ListPage,
-        }
-    },
-    {
-        initialRouteName: 'ListPage',
-        navigationOptions: {
-            header: () => null
-        },
-        mode: 'card',
-        headerMode: 'screen'
-    }
-);
 
 const styles = StyleSheet.create({
     flex: {

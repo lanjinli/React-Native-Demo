@@ -14,8 +14,7 @@ import {
     Modal
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import { StackNavigator, DrawerNavigator } from 'react-navigation';
-import ListPage from './list';
+// import { AppDrawerNavigator } from './navigators/AppNavigators';
 let Demensions = require('Dimensions');
 let { width, height } = Demensions.get('window');
 const TopHeight = Platform.select({
@@ -28,7 +27,7 @@ const OffsetHeader = Platform.select({
 });
 
 //定义首页
-class HomePage extends Component {
+export default class HomePage extends Component {
 
     static navigationOptions = {
         header: () => null
@@ -93,7 +92,7 @@ class HomePage extends Component {
                                     style={styles.b_l_btn}
                                     activeOpacity={0.9}
                                     key={index}
-                                    onPress={() => this.props.navigation.replace('List')}
+                                    onPress={() => this.props.navigation.navigate('List')}
                                 >
                                     <LinearGradient start={{ x: 0.25, y: 0.25 }} end={{ x: 0.75, y: 0.75 }} colors={['#0079f4', '#1b4fd5']} style={styles.b_l_t_bg}>
                                         <Image source={item.img} style={styles.b_l_btn_icon} />
@@ -112,6 +111,8 @@ class HomePage extends Component {
                     animationType='slide'
                     transparent={false}
                     visible={this.state.modalInfoVisible}
+                    presentationStyle='fullScreen'
+                    hardwareAccelerated={true}
                     onRequestClose={() => { this.setModalInfoVisible(!this.state.modalInfoVisible) }}
                 >
                     <View style={styles.modal_hred}>
@@ -133,72 +134,6 @@ class HomePage extends Component {
         );
     }
 }
-
-class CustomDrawerContentComponent extends Component {
-    //关闭侧栏抽屉
-    pressCloseDrawer() {
-        this.props.navigation.closeDrawer();
-    };
-    render() {
-        return (
-            <View style={[styles.flex, { backgroundColor: '#fff' }]}>
-                <TouchableOpacity style={[styles.btn]} onPress={this.pressCloseDrawer.bind(this)}>
-                    <Text>点击关闭侧栏抽屉</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-};
-
-const Stack = StackNavigator(
-    {
-        Home: {
-            screen: HomePage,
-        },
-        List: {
-            screen: ListPage,
-        }
-    },
-    {
-        initialRouteName: 'Home',
-        navigationOptions: {
-            header: () => null
-        },
-        mode: 'card',
-        headerMode: 'screen'
-    }
-);
-
-export default DrawerNavigator(
-    {
-        Home: {
-            screen: Stack,
-        },
-        List: {
-            screen: ListPage,
-        }
-    },
-    {
-        drawerWidth: 260, // 抽屉宽
-        drawerPosition: 'left', // 抽屉在左边还是右边
-        contentComponent: CustomDrawerContentComponent,  // 自定义抽屉组件
-        contentOptions: {
-            initialRouteName: Stack, // 默认页面组件
-            activeTintColor: '#008AC9',  // 选中文字颜色
-            activeBackgroundColor: '#f5f5f5', // 选中背景颜色
-            inactiveTintColor: '#000',  // 未选中文字颜色
-            inactiveBackgroundColor: '#fff', // 未选中背景颜色
-            style: {}
-        }
-    }
-);
-
-const close = {
-    //禁止打开菜单
-    drawerLockMode: "locked-closed",
-    //允许使用返回手势
-    gesturesEnabled: true,
-};
 
 const styles = StyleSheet.create({
     flex: {

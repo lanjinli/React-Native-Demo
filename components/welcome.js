@@ -11,8 +11,6 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-import HomePage from './home';
-import { StackNavigator } from 'react-navigation';
 let Demensions = require('Dimensions');
 let { width, height } = Demensions.get('window');
 const TopHeight = Platform.select({
@@ -22,11 +20,11 @@ const TopHeight = Platform.select({
 
 
 //定义广告页
-class AdsPage extends Component {
+export default class Welcome extends Component {
 
     //跳转首页
     getHomePage() {
-        this.props.navigation.replace('Home');
+        this.props.navigation.replace('HomeDrawerNav');
     }
     static navigationOptions = {
         // 隐藏头部
@@ -84,21 +82,6 @@ class AdsPage extends Component {
     }
     
 }
-
-export default StackNavigator(
-    {
-        Ads: AdsPage,
-        Home: HomePage,
-    },
-    {
-        initialRouteName: 'Ads',
-        navigationOptions: {
-            header: () => null
-        },
-        mode: 'card',
-        headerMode: 'screen'
-    }
-);
 
 const styles = StyleSheet.create({
     flex: {

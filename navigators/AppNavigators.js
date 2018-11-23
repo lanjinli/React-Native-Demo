@@ -14,7 +14,7 @@ export const HomeDrawerNavigator = DrawerNavigator(
         }
     },
     {
-        drawerWidth: 240, // 抽屉宽
+        drawerWidth: 220, // 抽屉宽
         drawerPosition: 'left', // 抽屉在左边还是右边
         contentComponent: Aside,  // 自定义抽屉组件
         contentOptions: {

@@ -40,7 +40,6 @@ export default class InfoPage extends Component {
                 />
                 <ScrollView>
                     <Text style={styles.title}>腾讯三大AI实验室  强大的技术基石</Text>
-                    <Image style={styles.images} source={{uri: 'https://p.qpic.cn/zckj/0/da85bfffa8c51cd926604140c9966e7d1517540745085/0'}} />
                     <Text style={styles.summary}>AI LAB</Text>
                     <Text style={styles.text}>腾讯AI Lab作为企业级AI实验室，依托腾讯丰富应用场景、海量大数据、强大计算能力和一流科技人才，专注于AI基础研究和应用探索的结合，希望为腾讯打造全面AI能力，向愿景“让AI无处不在”迈步。{"\n"}{"\n"}
 我们的基础研究方向包括计算机视觉、语音识别、自然语言处理和机器学习，应用探索结合了腾讯场景与业务优势，为内容、游戏、社交和平台工具型AI四类，目前已打造出围棋AI“绝艺”，技术也被微信、QQ、天天快报和QQ音乐等上百个腾讯产品使用。{"\n"}{"\n"}
@@ -82,13 +81,16 @@ const styles = StyleSheet.create({
         lineHeight: 22,
         paddingTop: 20,
         paddingHorizontal: 10,
+        fontSize: 18,
+        color: '#000'
     },
     text: {
         fontSize: 16,
-        paddingVertical: 10,
+        paddingVertical: 5,
         paddingHorizontal: 10,
         textAlign: 'justify',
-        lineHeight: 22,
-        color: '#545454'
+        lineHeight: 28,
+        color: '#545454',
+        fontWeight: '100',
     }
 });

@@ -17,6 +17,7 @@ import {
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../utils/NavigationBar';
 import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
+import {HomeData} from '../utils/config';
 
 //定义首页
 export default class HomePage extends Component {
@@ -26,32 +27,7 @@ export default class HomePage extends Component {
     };
 
     state = {
-        homeList: [
-            {
-                img: require('../assets/images/home_icon_01.png'),
-                title: '计算机视觉',
-                summary: '',
-                page: ''
-            },
-            {
-                img: require('../assets/images/home_icon_02.png'),
-                title: '自然语言处理',
-                summary: '',
-                page: ''
-            },
-            {
-                img: require('../assets/images/home_icon_03.png'),
-                title: '智能语音交互',
-                summary: '',
-                page: ''
-            },
-            {
-                img: require('../assets/images/home_icon_04.png'),
-                title: '底层硬件通讯',
-                summary: '',
-                page: ''
-            }
-        ]
+        homeList: HomeData
     };
 
     render() {

@@ -1,17 +1,16 @@
 import React from 'react';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
+import StackViewStyleInterpolator from "react-navigation-stack/dist/views/StackView/StackViewStyleInterpolator";
 import WelcomePage from '../components/welcome';
 import HomePage from '../components/home';
 import Aside from '../components/aside';
 import ListPage from '../components/list';
+import InfoPage from '../components/info';
 
 export const HomeDrawerNavigator = DrawerNavigator(
     {
         Home: {
             screen: HomePage,
-        },
-        List: {
-            screen: ListPage,
         }
     },
     {
@@ -37,6 +36,12 @@ export const AppStackNavigator = StackNavigator(
         },
         HomeDrawerNav: {
             screen: HomeDrawerNavigator,
+        },
+        List: {
+            screen: ListPage,
+        },
+        Info: {
+            screen: InfoPage,
         }
     },
     {
@@ -44,7 +49,10 @@ export const AppStackNavigator = StackNavigator(
         navigationOptions: {
             header: () => null
         },
-        mode: 'card',
-        headerMode: 'screen'
+        // mode: 'card',
+        // headerMode: 'screen'
+        transitionConfig: () => ({ // 修改页面跳转动画方向
+            screenInterpolator: StackViewStyleInterpolator.forHorizontal,
+        }),
     }
 );

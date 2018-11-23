@@ -11,19 +11,11 @@ import {
     Image,
     ScrollView,
     BVLinearGraient,
-    Modal
+    StatusBar
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-let Demensions = require('Dimensions');
-let { width, height } = Demensions.get('window');
-const TopHeight = Platform.select({
-    ios: 20,
-    android: 0,
-});
-const OffsetHeader = Platform.select({
-    ios: 0,
-    android: 15,
-});
+import NavigationBar from '../utils/NavigationBar';
+import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
 
 //定义列表
 export default class ListPage extends Component {
@@ -39,16 +31,17 @@ export default class ListPage extends Component {
     render() {
         return (
             <View style={[styles.flex, { backgroundColor: '#FFF' }]}>
-                <View style={styles.header}>
-                    <View style={styles.h_nav}>
-                        <TouchableOpacity style={styles.h_n_btn} activeOpacity={0.7} onPress={() => (this.props.navigation.goBack())} >
-                            <Image style={{ width: 48, height: 48 }} source={require("../assets/images/icon_back.png")} />
+                <NavigationBar
+                    title={'列表'}
+                    style={{
+                        backgroundColor: '#fff'
+                    }}
+                    leftButton={
+                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => (this.props.navigation.goBack())} >
+                            <Image style={{ width: 44, height: 44 }} source={require("../assets/images/icon_back.png")} />
                         </TouchableOpacity>
-                        <View style={styles.h_title}>
-                            <Text style={styles.h_t_text}>列表</Text>
-                        </View>
-                    </View>
-                </View>
+                    }
+                />
             </View>
         );
     }
@@ -56,49 +49,28 @@ export default class ListPage extends Component {
 
 const styles = StyleSheet.create({
     flex: {
-        paddingTop: TopHeight,
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#fff',
         position: 'relative'
     },
-    header: {
-        width: width,
-        backgroundColor: '#fff',
-        position: 'absolute',
-        top: TopHeight,
-    },
-    h_nav: {
-        height: 48,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    h_n_btn: {
-        width: 48,
-        height: 48,
-    },
-    h_title: {
-        height: 48,
-        flex: 1,
+    NavBarBtn: {
+        width: 44,
+        height: NAVBSR_HEIGHT,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    h_t_text: {
-        color: '#1d1d1d',
-        fontSize: 18,
-    },
     body: {
-        height: height - (48 + TopHeight) + OffsetHeader,
+        flex: 1,
+        height: height - (NAVBSR_HEIGHT + STATUS_BAR_HEIGHT),
         position: 'absolute',
-        top: 48 + TopHeight,
+        top: 48 + STATUS_BAR_HEIGHT,
         backgroundColor: '#fff',
         width: width
     },
     b_list: {
         // backgroundColor: '#fff',
         flex: 1,
-        minHeight: height - (92 + TopHeight),
+        minHeight: height - (84 + NAVBSR_HEIGHT + STATUS_BAR_HEIGHT),
     },
     b_l_btn: {
         marginHorizontal: 10,
@@ -140,7 +112,7 @@ const styles = StyleSheet.create({
     modal_hred: {
         width: width,
         position: 'absolute',
-        top: TopHeight,
+        top: STATUS_BAR_HEIGHT,
         zIndex: 1,
         backgroundColor: '#fff',
         height: 48
@@ -151,9 +123,9 @@ const styles = StyleSheet.create({
     },
     modal_body: {
         position: 'absolute',
-        top: 48 + TopHeight,
+        top: 48 + STATUS_BAR_HEIGHT,
         width: width,
-        height: height - (48 + TopHeight)
+        height: height - (48 + STATUS_BAR_HEIGHT)
     },
     modal_title: {
         fontSize: 18,

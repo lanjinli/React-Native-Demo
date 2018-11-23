@@ -11,16 +11,7 @@ import {
     ScrollView,
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-let Demensions = require('Dimensions');
-let { width, height } = Demensions.get('window');
-const TopHeight = Platform.select({
-    ios: 20,
-    android: 0,
-});
-const OffsetHeader = Platform.select({
-    ios: 0,
-    android: 15,
-});
+import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
 
 
 export default class Aside extends Component {
@@ -41,7 +32,7 @@ export default class Aside extends Component {
 
 const styles = StyleSheet.create({
     flex: {
-        paddingTop: TopHeight,
+        paddingTop: STATUS_BAR_HEIGHT,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',

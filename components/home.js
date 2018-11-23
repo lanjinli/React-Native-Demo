@@ -11,20 +11,12 @@ import {
     Image,
     ScrollView,
     BVLinearGraient,
-    Modal
+    StatusBar,
+    NativeModules
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-// import { AppDrawerNavigator } from './navigators/AppNavigators';
-let Demensions = require('Dimensions');
-let { width, height } = Demensions.get('window');
-const TopHeight = Platform.select({
-    ios: 20,
-    android: 0,
-});
-const OffsetHeader = Platform.select({
-    ios: 0,
-    android: 15,
-});
+import NavigationBar from '../utils/NavigationBar';
+import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
 
 //定义首页
 export default class HomePage extends Component {
@@ -59,32 +51,30 @@ export default class HomePage extends Component {
                 summary: '',
                 page: ''
             }
-        ],
-        modalInfoVisible: false
+        ]
     };
-
-    setModalInfoVisible(visible) {
-        this.setState({ modalInfoVisible: visible });
-    }
 
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View style={[styles.flex, { backgroundColor: '#FFF' }]}>
-                <View style={styles.header}>
-                    <View style={styles.h_nav}>
-                        <TouchableOpacity style={styles.h_n_btn} activeOpacity={0.7} onPress={() => (this.props.navigation.openDrawer())} >
-                            <Image style={{ width: 48, height: 48 }} source={require("../assets/images/icon_menu.png")} />
+            <View style={styles.flex}>
+                <NavigationBar
+                    title={'腾讯AI体验中心'}
+                    style={{
+                        backgroundColor: '#fff'
+                    }}
+                    leftButton={
+                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => this.props.navigation.openDrawer()} >
+                            <Image style={{ width: 44, height: 44 }} source={require("../assets/images/icon_menu.png")} />
                         </TouchableOpacity>
-                        <View style={styles.h_title}>
-                            <Text style={styles.h_t_text}>腾讯AI体验中心</Text>
-                        </View>
-                        <TouchableOpacity style={styles.h_n_btn} activeOpacity={0.7} onPress={() => {this.setModalInfoVisible(!this.state.modalInfoVisible)}}>
-                            <Image style={{ width: 48, height: 48 }} source={require("../assets/images/icon_about.png")} />
+                    }
+                    rightButton={
+                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => this.props.navigation.navigate('Info')} >
+                            <Image style={{ width: 44, height: 44 }} source={require("../assets/images/icon_about.png")} />
                         </TouchableOpacity>
-                    </View>
-                </View>
-                <ScrollView style={styles.body}>
+                    }
+                />
+                <ScrollView>
                     <View style={styles.b_list}>
                         {
                             this.state.homeList.map((item, index) => {
@@ -106,30 +96,6 @@ export default class HomePage extends Component {
                         <Text style={styles.b_f_text}>腾讯AI开放平台</Text>
                     </View>
                 </ScrollView>
-                <Modal
-                    style={styles.modal_info}
-                    animationType='slide'
-                    transparent={false}
-                    visible={this.state.modalInfoVisible}
-                    presentationStyle='fullScreen'
-                    hardwareAccelerated={true}
-                    onRequestClose={() => { this.setModalInfoVisible(!this.state.modalInfoVisible) }}
-                >
-                    <View style={styles.modal_hred}>
-                        <TouchableOpacity style={styles.modal_info_back} activeOpacity={0.7} onPress={() => { this.setModalInfoVisible(!this.state.modalInfoVisible) }}>
-                            <Image tintColor={'#808080'} style={{ width: 48, height: 48 }} source={require("../assets/images/icon_back.png")} />
-                        </TouchableOpacity>
-                    </View>
-                    <ScrollView style={styles.modal_body}>
-                        <Text style={styles.modal_title}>腾讯三大AI实验室  强大的技术基石</Text>
-                        <Text style={styles.modal_summary}>AI LAB</Text>
-                        <Text style={styles.modal_text}>腾讯AI Lab聚集全球数十位人工智能科学家、70位世界一流AI博士，专注机器学习、计算机视觉、语音识别、自然语言处理等人工智能领域的研究。</Text>
-                        <Text style={styles.modal_summary}>优图实验室</Text>
-                        <Text style={styles.modal_text}>优图实验室致力于人脸识别、图像识别及声音识别的技术研究和产品研发，拥有业界独创的活体检测技术，已为上百家企业提供服务。</Text>
-                        <Text style={styles.modal_summary}>微信AI</Text>
-                        <Text style={styles.modal_text}>微信AI致力于为语音识别、自然语言处理、计算机视觉、数据挖掘和机器学习等人工智能技术的发展带来革命性进步。</Text>
-                    </ScrollView>
-                </Modal>
             </View>
         );
     }
@@ -137,49 +103,26 @@ export default class HomePage extends Component {
 
 const styles = StyleSheet.create({
     flex: {
-        paddingTop: TopHeight,
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#fff',
         position: 'relative'
     },
-    header: {
-        width: width,
-        backgroundColor: '#fff',
-        position: 'absolute',
-        top: TopHeight,
-    },
-    h_nav: {
-        height: 48,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    h_n_btn: {
-        width: 48,
-        height: 48,
-    },
-    h_title: {
-        height: 48,
-        flex: 1,
+    NavBarBtn: {
+        width: 44,
+        height: NAVBSR_HEIGHT,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    h_t_text: {
-        color: '#1d1d1d',
-        fontSize: 18,
-    },
     body: {
-        height: height - (48 + TopHeight) + OffsetHeader,
+        height: height - (NAVBSR_HEIGHT + STATUS_BAR_HEIGHT) + 40,
         position: 'absolute',
-        top: 48 + TopHeight,
-        backgroundColor: '#fff',
+        top: NAVBSR_HEIGHT + STATUS_BAR_HEIGHT,
+        backgroundColor: '#000',
         width: width
     },
     b_list: {
-        // backgroundColor: '#fff',
         flex: 1,
-        minHeight: height - (92 + TopHeight),
+        // minHeight: height - (44 + NAVBSR_HEIGHT + STATUS_BAR_HEIGHT),
     },
     b_l_btn: {
         marginHorizontal: 10,
@@ -221,7 +164,7 @@ const styles = StyleSheet.create({
     modal_hred: {
         width: width,
         position: 'absolute',
-        top: TopHeight,
+        top: STATUS_BAR_HEIGHT,
         zIndex: 1,
         backgroundColor: '#fff',
         height: 48
@@ -232,9 +175,9 @@ const styles = StyleSheet.create({
     },
     modal_body: {
         position: 'absolute',
-        top: 48 + TopHeight,
+        top: 48 + STATUS_BAR_HEIGHT,
         width: width,
-        height: height - (48 + TopHeight)
+        height: height - (48 + STATUS_BAR_HEIGHT)
     },
     modal_title: {
         fontSize: 18,

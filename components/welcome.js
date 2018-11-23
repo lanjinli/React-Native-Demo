@@ -8,15 +8,11 @@ import {
     View,
     StatusBar,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    NativeModules
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-let Demensions = require('Dimensions');
-let { width, height } = Demensions.get('window');
-const TopHeight = Platform.select({
-    ios: 20,
-    android: 0,
-});
+import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
 
 
 //定义广告页
@@ -58,7 +54,7 @@ export default class Welcome extends Component {
     render() {
         return (
             <View style={[styles.flex]}>
-                {/* <StatusBar
+                <StatusBar
                     animated={true}//变化是否动画过渡
                     hidden={true}//是否显示
                     backgroundColor={'#000'}//背景颜色
@@ -66,8 +62,7 @@ export default class Welcome extends Component {
                     networkActivityIndicatorVisible={false}//ios 状态加载中
                     showHideTransition={'fade'}
                     barStyle={'dark-content'} // 文本颜色
-                >
-                </StatusBar> */}
+                />
                 <Image source={require("../assets/images/home_ads.jpg")} style={styles.adsImg}/>
                 <View style={styles.slogan}>
                     <Text style={styles.slogan_text}>腾讯AI黑科技 一键可达</Text>
@@ -89,6 +84,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
+        backgroundColor: '#fff'
     },
     adsImg: {
         flex: 1,
@@ -100,7 +96,7 @@ const styles = StyleSheet.create({
     },
     slogan: {
         width: width,
-        height: width/4,
+        height: height/5,
         backgroundColor: '#FFF',
         position: 'absolute',
         bottom: 0,
@@ -110,12 +106,11 @@ const styles = StyleSheet.create({
     },
     slogan_text: {
         fontSize: 16,
-        // color: '#fff',
         color: '#666',
     },
     skip: {
         position: 'absolute',
-        top: 10 + TopHeight,
+        top: STATUS_BAR_HEIGHT,
         right: 10,
         width: 80,
         height: 28,

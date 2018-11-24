@@ -45,7 +45,7 @@ export default class HomePage extends Component {
                         </TouchableOpacity>
                     }
                     rightButton={
-                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => this.props.navigation.navigate('Info')} >
+                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => navigate('Info')} >
                             <Image style={{ width: 44, height: 44 }} source={require("../assets/images/icon_about.png")} />
                         </TouchableOpacity>
                     }
@@ -58,7 +58,7 @@ export default class HomePage extends Component {
                                     style={styles.b_l_btn}
                                     activeOpacity={0.9}
                                     key={index}
-                                    onPress={() => this.props.navigation.navigate('List')}
+                                    onPress={() => navigate(item.page, {data: item})}
                                 >
                                     <LinearGradient start={{ x: 0.25, y: 0.25 }} end={{ x: 0.75, y: 0.75 }} colors={['#0079f4', '#1b4fd5']} style={styles.b_l_t_bg}>
                                         <Image source={item.img} style={styles.b_l_btn_icon} />
@@ -89,16 +89,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    body: {
-        height: height - (NAVBSR_HEIGHT + STATUS_BAR_HEIGHT) + 40,
-        position: 'absolute',
-        top: NAVBSR_HEIGHT + STATUS_BAR_HEIGHT,
-        backgroundColor: '#000',
-        width: width
-    },
     b_list: {
         flex: 1,
-        // minHeight: height - (44 + NAVBSR_HEIGHT + STATUS_BAR_HEIGHT),
+        minHeight: height - (44 + NAVBSR_HEIGHT + STATUS_BAR_HEIGHT),
     },
     b_l_btn: {
         marginHorizontal: 10,

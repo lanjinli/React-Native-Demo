@@ -6,7 +6,7 @@ import {
     Text,
     View,
     Button,
-    TouchableOpacity,
+    TouchableHighlight,
     Image,
     ScrollView,
 } from 'react-native';
@@ -21,13 +21,15 @@ export default class Aside extends Component {
     };
 
     //关闭侧栏抽屉
-    pressCloseDrawer() {
-        this.props.navigation.closeDrawer();
+    pressGetPage(name, item) {
+        this.props.navigation.navigate('List', {data: item});
+        // this.props.navigation.closeDrawer();
     };
 
     render() {
+        const { navigate } = this.props.navigation;
         return (
-            <View style={[styles.flex, { backgroundColor: '#fff' }]}>
+            <View style={[styles.flex]}>
                 <View style={styles.logo_wrap}>
                     <Image source={require("../assets/images/logo.png")} style={styles.logo} />
                 </View>
@@ -36,14 +38,15 @@ export default class Aside extends Component {
                         {
                             this.state.homeList.map((item, index) => {
                                 return (
-                                <TouchableOpacity
+                                <TouchableHighlight
                                     style={styles.btn}
-                                    activeOpacity={0.1}
+                                    activeOpacity={0.85}
+                                    underlayColor={'white'}
                                     key={index}
-                                    onPress={() => this.props.navigation.navigate('List')}
+                                    onPress={() => {this.pressGetPage('List', item)}}
                                 >
                                     <Text style={styles.text}>{item.title}</Text>
-                                </TouchableOpacity>)
+                                </TouchableHighlight>)
                             })
                         }
                     </View>
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
     flex: {
         paddingTop: STATUS_BAR_HEIGHT,
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: '#f9f9f9'
     },
     logo_wrap: {
         width: '100%',
@@ -67,21 +70,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     logo: {
-        width: 72,
-        height: 72,
+        width: 64,
+        height: 64,
     },
     list: {
         flex: 1,
-        backgroundColor: '#f9f9f9'
+        backgroundColor: '#f9f9f9',
     },
     btn: {
-        height: 50,
+        height: 56,
         width: '100%',
-        backgroundColor: '#f9f9f9'
+        backgroundColor: '#f9f9f9',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     text: {
-        lineHeight: 50,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: '100',
         paddingHorizontal: 10,
         textAlign: 'center'

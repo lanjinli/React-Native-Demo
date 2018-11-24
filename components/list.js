@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast, {DURATION} from 'react-native-easy-toast';
+
+import React, { Component } from 'react';
 import {
     Platform,
     StyleSheet,
@@ -14,7 +16,6 @@ import {
     BVLinearGraient,
     StatusBar
 } from 'react-native';
-import Toast, {DURATION} from 'react-native-easy-toast';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../utils/NavigationBar';
 import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';

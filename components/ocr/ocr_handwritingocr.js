@@ -1,3 +1,6 @@
+import ImagePicker from 'react-native-image-picker';
+import Toast, {DURATION} from 'react-native-easy-toast';
+
 import React, { Component } from 'react';
 import {
     Platform,
@@ -22,7 +25,69 @@ export default class OcrHandwritingocr extends Component {
     };
 
     state = {
+        avatarSource: null,
+        videoSource: null,
+        viewport_img: {
+            width: 0,
+            height: 0,
+        }
     };
+
+    //选择图片
+    selectPhotoTapped() {
+        const options = {
+            title: '', 
+            cancelButtonTitle: '取消',
+            takePhotoButtonTitle: '拍照', 
+            chooseFromLibraryButtonTitle: '选择照片', 
+            cameraType: 'back',
+            mediaType: 'photo',
+            videoQuality: 'high', 
+            durationLimit: 10, 
+            // maxWidth: 300,
+            // maxHeight: 300,
+            quality: 1, 
+            angle: 0,
+            allowsEditing: false, 
+            noData: false,
+            storageOptions: {
+                skipBackup: true
+            }
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+            if (response.didCancel) {
+                this.refs.toast.show('取消图像选择');
+            }
+            else if (response.error) {
+                this.refs.toast.show('选择图像出错: ', response.error);
+            }
+            else {
+                // let source = { uri: response.uri };
+                // You can also display the image using data:
+                let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let imgWidth,imgHeight;
+                if(response.width > response.height){
+                    imgWidth = width;
+                    imgHeight = response.height/(response.width/width);
+                }else if(response.width < response.height){
+                    imgWidth = response.width/(response.height/width);
+                    imgHeight = width;
+                }else{
+                    imgWidth = width;
+                    imgHeight = width;
+                }
+                this.setState({
+                    avatarSource: source,
+                    viewport_img: {
+                        width: imgWidth,
+                        height: imgHeight,
+                    }
+                });
+            }
+        });
+    }
 
     render() {
         const { data } = this.props.navigation.state.params;
@@ -41,17 +106,28 @@ export default class OcrHandwritingocr extends Component {
                     }
                 />
                 <ScrollView>
-                    <View style={styles.viewport}></View>
+                    <View style={styles.viewport}>
+                        <Image style={this.state.viewport_img} source={this.state.avatarSource} />
+                    </View>
                     <View style={styles.results}></View>
                     <View style={styles.button}>
                         <TouchableOpacity
                             style={styles.btn_wrap}
                             activeOpacity={0.9}
+                            onPress={this.selectPhotoTapped.bind(this)}
                         >
                             <Text style={styles.btn_text}>上传图像</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
+                <Toast
+                    ref="toast"
+                    style={styles.toast}
+                    position='bottom'
+                    positionValue={30}
+                    fadeInDuration={200}
+                    fadeOutDuration={100}
+                />
             </View>
         );
     }
@@ -69,10 +145,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    toast: {
+        backgroundColor: 'rgba(0,0,0,.7)',
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 6
+    },
     viewport: {
         width: width,
         height: width,
-        backgroundColor: '#f5f6f6'
+        backgroundColor: '#f5f6f6',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     results: {
 

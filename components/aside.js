@@ -22,7 +22,7 @@ export default class Aside extends Component {
 
     //关闭侧栏抽屉
     pressGetPage(name, item) {
-        this.props.navigation.navigate('List', {data: item});
+        this.props.navigation.navigate(name, {data: item});
         // this.props.navigation.closeDrawer();
     };
 
@@ -43,7 +43,7 @@ export default class Aside extends Component {
                                     activeOpacity={0.85}
                                     underlayColor={'white'}
                                     key={index}
-                                    onPress={() => {this.pressGetPage('List', item)}}
+                                    onPress={() => {this.pressGetPage(item.page, item)}}
                                 >
                                     <Text style={styles.text}>{item.title}</Text>
                                 </TouchableHighlight>)

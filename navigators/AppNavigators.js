@@ -7,6 +7,8 @@ import Aside from '../components/aside';
 import ListPage from '../components/list';
 import InfoPage from '../components/info';
 
+import OcrHandwritingocrPage from '../components/ocr/ocr_handwritingocr';
+
 export const HomeDrawerNavigator = DrawerNavigator(
     {
         Home: {
@@ -42,6 +44,9 @@ export const AppStackNavigator = StackNavigator(
         },
         Info: {
             screen: InfoPage,
+        },
+        OcrHandwritingocr: {
+            screen: OcrHandwritingocrPage,
         }
     },
     {

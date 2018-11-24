@@ -14,6 +14,7 @@ import {
     BVLinearGraient,
     StatusBar
 } from 'react-native';
+import Toast, {DURATION} from 'react-native-easy-toast';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../utils/NavigationBar';
 import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
@@ -23,6 +24,15 @@ export default class ListPage extends Component {
 
     static navigationOptions = {
         header: () => null
+    };
+
+    //跳转页面
+    pressGetPage (item) {
+        if(item.page){
+            this.props.navigation.navigate(item.page, {data: item});
+        }else{
+            this.refs.toast.show('正在开发中，敬请期待');
+        }
     };
 
     render() {
@@ -56,7 +66,7 @@ export default class ListPage extends Component {
                                         activeOpacity={1}
                                         underlayColor={'white'}
                                         key={index}
-                                        onPress={() => {/*navigate(item.page)*/}}
+                                        onPress={() => {this.pressGetPage(item)}}
                                     >
                                         <View style={styles.b_l_btn_wrap}>
                                             <Image source={item.img} style={styles.b_l_btn_icon} />
@@ -80,6 +90,14 @@ export default class ListPage extends Component {
                         ):false
                     }
                 </ScrollView>
+                <Toast
+                    ref="toast"
+                    style={styles.toast}
+                    position='bottom'
+                    positionValue={30}
+                    fadeInDuration={200}
+                    fadeOutDuration={100}
+                />
             </View>
         );
     }
@@ -96,6 +114,12 @@ const styles = StyleSheet.create({
         height: NAVBSR_HEIGHT,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    toast: {
+        backgroundColor: 'rgba(0,0,0,.7)',
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 6
     },
     banner: {
         height: 150,

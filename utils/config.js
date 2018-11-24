@@ -15,43 +15,50 @@ export const HomeData = [
                 img: require('../assets/images/icon_ocr_02.png'),
                 title: '通用OCR',
                 summary: '识别上传图像上面的字段信息',
-                page: 'OcrGeneralocr',
+                // page: 'OcrGeneralocr',
+                page: ''
             },
             {
                 img: require('../assets/images/icon_ocr_03.png'),
                 title: '身份证OCR',
                 summary: '识别身份证图像上面的详细身份信息',
-                page: 'OcrIdcardocr',
+                // page: 'OcrIdcardocr',
+                page: ''
             },
             {
                 img: require('../assets/images/icon_ocr_04.png'),
                 title: '行驶证OCR',
                 summary: '识别行驶证图像上面的字段信息',
-                page: 'OcrDriverlicenseocr',
+                // page: 'OcrDriverlicenseocr',
+                page: ''
             },
             {
                 img: require('../assets/images/icon_ocr_05.png'),
                 title: '驾驶证OCR',
                 summary: '识别驾驶证图像上面的字段信息',
-                page: 'OcrDriverlicenseocr',
+                // page: 'OcrDriverlicenseocr',
+                page: ''
             },
             {
                 img: require('../assets/images/icon_ocr_06.png'),
                 title: '营业执照OCR',
                 summary: '识别营业执照上面的字段信息',
-                page: 'OcrBizlicenseocr',
+                // page: 'OcrBizlicenseocr',
+                page: ''
             },
             {
                 img: require('../assets/images/icon_ocr_07.png'),
                 title: '银行卡OCR',
                 summary: '识别银行卡上面的字段信息',
-                page: 'OcrCreditcardocr',
+                // page: 'OcrCreditcardocr',
+                page: ''
             },
             {
                 img: require('../assets/images/icon_ocr_08.png'),
                 title: '车牌OCR',
                 summary: '识别车牌上面的字段信息',
-                page: 'OcrPlateocr',
+                // page: 'OcrPlateocr',
+                page: ''
             }
         ]
     },

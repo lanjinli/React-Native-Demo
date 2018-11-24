@@ -12,7 +12,7 @@ import {
     ScrollView,
     BVLinearGraient,
     StatusBar,
-    NativeModules
+    NativeModules,
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../utils/NavigationBar';
@@ -29,6 +29,9 @@ export default class HomePage extends Component {
     state = {
         homeList: HomeData
     };
+
+    componentWillMount() {
+    }
 
     render() {
         const { navigate } = this.props.navigation;
@@ -60,7 +63,7 @@ export default class HomePage extends Component {
                                     key={index}
                                     onPress={() => navigate(item.page, {data: item})}
                                 >
-                                    <LinearGradient start={{ x: 0.25, y: 0.25 }} end={{ x: 0.75, y: 0.75 }} colors={['#0079f4', '#1b4fd5']} style={styles.b_l_t_bg}>
+                                    <LinearGradient start={{ x: 0.25, y: 0.25 }} end={{ x: 0.75, y: 0.75 }} colors={['#1b4fd5', '#1657da']} style={styles.b_l_t_bg}>
                                         <Image source={item.img} style={styles.b_l_btn_icon} />
                                         <Text style={styles.b_l_btn_text}>{item.title}</Text>
                                     </LinearGradient>

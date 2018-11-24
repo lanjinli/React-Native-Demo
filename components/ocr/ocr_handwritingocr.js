@@ -16,6 +16,7 @@ import {
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../../utils/NavigationBar';
 import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../../utils/util';
+import HttpUtils from '../../utils/httpUtils';
 
 //定义详情
 export default class OcrHandwritingocr extends Component {
@@ -33,7 +34,7 @@ export default class OcrHandwritingocr extends Component {
         }
     };
 
-    //选择图片
+    // 选择图片
     selectPhotoTapped() {
         const options = {
             title: '', 
@@ -66,6 +67,7 @@ export default class OcrHandwritingocr extends Component {
             else {
                 // let source = { uri: response.uri };
                 // You can also display the image using data:
+                this.requestApi(response.data);
                 let source = { uri: 'data:image/jpeg;base64,' + response.data };
                 let imgWidth,imgHeight;
                 if(response.width > response.height){
@@ -87,6 +89,34 @@ export default class OcrHandwritingocr extends Component {
                 });
             }
         });
+    }
+
+    componentDidMount() {
+        this.requestApi()
+    }
+
+    // 请求接口
+    requestApi(base64) {
+        console.log('请求');
+        HttpUtils.post('http://lilanjin.top/demoapi/sign.php',{
+            'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
+            'params': {
+                'app_id': '2109841751',
+                'time_stamp': Math.round(new Date().getTime()/1000).toString(),
+                'nonce_str': Math.floor(Math.random()*100000).toString(),
+                'sign': '',
+                'image': '',
+                'image_url': 'https://yyb.gtimg.com/ai/assets/ai-demo/large/hd-7-lg.jpg',
+            }
+        })
+        .then(result=>{
+            alert(result)
+            console.log(result);
+        })
+        .catch(error=>{
+            alert(result)
+            console.log(error);
+        })
     }
 
     render() {

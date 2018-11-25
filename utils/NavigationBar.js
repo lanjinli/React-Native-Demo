@@ -43,7 +43,6 @@ export default class NavigationBar extends Component {
         statusBar: {
             barStyle: 'dark-content',
             hidden: false,
-            backgroundColor: '#fff',
             animated: false,
             translucent: true,
             networkActivityIndicatorVisible: false,
@@ -58,10 +57,14 @@ export default class NavigationBar extends Component {
         }
     }
     componentWillMount() {
+        console.log(this.props.style.backgroundColor)
     }
     render() {
-        let status = <View state={[styles.statusBar,this.props.statusBar]}>
-            <StatusBar {...this.props.statusBar} />
+        let status = <View style={[...this.props.style,styles.statusBar]}>
+            <StatusBar
+                {...this.props.statusBar}
+                backgroundColor={this.props.style.backgroundColor}
+            />
         </View>
         let titleView = this.props.titleView?this.props.titleView:<Text style={styles.titleViewContainerText}>{this.props.title}</Text>;
         let content = <View style={styles.navBar}>
@@ -84,14 +87,15 @@ const styles = StyleSheet.create({
     container: {
         height: NAVBSR_HEIGHT + STATUS_BAR_HEIGHT,
     },
+    statusBar: {
+        height: STATUS_BAR_HEIGHT,
+    },
     navBar: {
         width: width,
         height: NAVBSR_HEIGHT,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        position: 'absolute',
-        top: STATUS_BAR_HEIGHT,
     },
     titleViewContainer: {
         justifyContent: 'center',
@@ -105,8 +109,5 @@ const styles = StyleSheet.create({
     titleViewContainerText: {
         color: '#1d1d1d',
         fontSize: 18,
-    },
-    statusBar: {
-        height: STATUS_BAR_HEIGHT
-    },
+    }
 });

@@ -132,42 +132,5 @@ const styles = StyleSheet.create({
     b_f_text: {
         fontSize: 12,
         color: '#bdbdbd',
-    },
-    modal_hred: {
-        width: width,
-        position: 'absolute',
-        top: STATUS_BAR_HEIGHT,
-        zIndex: 1,
-        backgroundColor: '#fff',
-        height: 48
-    },
-    modal_info_back: {
-        width: 48,
-        height: 48
-    },
-    modal_body: {
-        position: 'absolute',
-        top: 48 + STATUS_BAR_HEIGHT,
-        width: width,
-        height: height - (48 + STATUS_BAR_HEIGHT)
-    },
-    modal_title: {
-        fontSize: 18,
-        textAlign: 'center',
-        paddingVertical: 30,
-    },
-    modal_summary: {
-        fontSize: 14,
-        lineHeight: 22,
-        paddingTop: 20,
-        paddingHorizontal: 10,
-    },
-    modal_text: {
-        fontSize: 14,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        textAlign: 'justify',
-        lineHeight: 22,
-        color: '#545454'
     }
 });

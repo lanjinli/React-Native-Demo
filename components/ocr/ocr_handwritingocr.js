@@ -91,33 +91,21 @@ export default class OcrHandwritingocr extends Component {
         });
     }
 
-    componentDidMount() {
-        this.requestApi()
-    }
-
     // 请求接口
     requestApi(base64) {
+        let data = {
+            'app_id': '2109841751',
+            'time_stamp': Math.round(new Date().getTime()/1000).toString(),
+            'nonce_str': Math.floor(Math.random()*100000).toString(),
+            'sign': '',
+            'image': '',
+            'image_url': 'https://yyb.gtimg.com/ai/assets/ai-demo/large/hd-7-lg.jpg',
+        }
         console.log('请求');
-        // HttpUtils.post('http://lilanjin.top/demoapi/sign.php',{
-        //     'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
-        //     'params': {
-        //         'app_id': '2109841751',
-        //         'time_stamp': Math.round(new Date().getTime()/1000).toString(),
-        //         'nonce_str': Math.floor(Math.random()*100000).toString(),
-        //         'sign': '',
-        //         'image': '',
-        //         'image_url': 'https://yyb.gtimg.com/ai/assets/ai-demo/large/hd-7-lg.jpg',
-        //     }
-        // })
-        // .then(result=>{
-        //     alert(result)
-        //     console.log(result);
-        // })
-        // .catch(error=>{
-        //     alert(result)
-        //     console.log(error);
-        // })
-        HttpUtils.get('http://rap2api.taobao.org/app/mock/118796/example/test')
+        HttpUtils.post('http://web.lilanjin.top/sign.php',{
+            'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
+            'params': data
+        })
         .then(result=>{
             alert(result)
             console.log(result);
@@ -126,6 +114,10 @@ export default class OcrHandwritingocr extends Component {
             alert(result)
             console.log(error);
         })
+    }
+
+    componentDidMount() {
+        // this.requestApi()
     }
 
     render() {

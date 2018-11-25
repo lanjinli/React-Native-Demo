@@ -57,6 +57,8 @@ export default class NavigationBar extends Component {
             hide: false
         }
     }
+    componentWillMount() {
+    }
     render() {
         let status = <View state={[styles.statusBar,this.props.statusBar]}>
             <StatusBar {...this.props.statusBar} />

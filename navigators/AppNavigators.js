@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator, DrawerNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import StackViewStyleInterpolator from "react-navigation-stack/dist/views/StackView/StackViewStyleInterpolator";
 import WelcomePage from '../components/welcome';
 import HomePage from '../components/home';
@@ -9,7 +9,7 @@ import InfoPage from '../components/info';
 
 import OcrHandwritingocrPage from '../components/ocr/ocr_handwritingocr';
 
-export const HomeDrawerNavigator = DrawerNavigator(
+export const HomeDrawerNavigator = createDrawerNavigator(
     {
         Home: {
             screen: HomePage,
@@ -31,7 +31,7 @@ export const HomeDrawerNavigator = DrawerNavigator(
 );
 
 
-export const AppStackNavigator = StackNavigator(
+export const AppStackNavigator = createStackNavigator(
     {
         Welcome: {
             screen: WelcomePage,

@@ -62,12 +62,12 @@ export default class OcrHandwritingocr extends Component {
                 this.refs.toast.show('取消图像选择');
             }
             else if (response.error) {
-                this.refs.toast.show('选择图像出错: ', response.error);
+                this.refs.toast.show('选择图像出错', response.error);
             }
             else {
                 // let source = { uri: response.uri };
                 // You can also display the image using data:
-                this.requestApi(response.data);
+                // this.requestApi(response.data);
                 let source = { uri: 'data:image/jpeg;base64,' + response.data };
                 let imgWidth,imgHeight;
                 if(response.width > response.height){
@@ -98,17 +98,26 @@ export default class OcrHandwritingocr extends Component {
     // 请求接口
     requestApi(base64) {
         console.log('请求');
-        HttpUtils.post('http://lilanjin.top/demoapi/sign.php',{
-            'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
-            'params': {
-                'app_id': '2109841751',
-                'time_stamp': Math.round(new Date().getTime()/1000).toString(),
-                'nonce_str': Math.floor(Math.random()*100000).toString(),
-                'sign': '',
-                'image': '',
-                'image_url': 'https://yyb.gtimg.com/ai/assets/ai-demo/large/hd-7-lg.jpg',
-            }
-        })
+        // HttpUtils.post('http://lilanjin.top/demoapi/sign.php',{
+        //     'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
+        //     'params': {
+        //         'app_id': '2109841751',
+        //         'time_stamp': Math.round(new Date().getTime()/1000).toString(),
+        //         'nonce_str': Math.floor(Math.random()*100000).toString(),
+        //         'sign': '',
+        //         'image': '',
+        //         'image_url': 'https://yyb.gtimg.com/ai/assets/ai-demo/large/hd-7-lg.jpg',
+        //     }
+        // })
+        // .then(result=>{
+        //     alert(result)
+        //     console.log(result);
+        // })
+        // .catch(error=>{
+        //     alert(result)
+        //     console.log(error);
+        // })
+        HttpUtils.get('http://rap2api.taobao.org/app/mock/118796/example/test')
         .then(result=>{
             alert(result)
             console.log(result);

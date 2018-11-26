@@ -81,6 +81,19 @@ export const HomeData = [
         title: '第三方组件',
         summary: 'React Native\n常用第三方组件',
         page: 'List',
-        children: []
+        children: [
+            {
+                img: require('../assets/images/icon_app.png'),
+                title: '模态窗',
+                summary: 'react-native-modalbox',
+                page: 'RnModalbox'
+            },
+            {
+                img: require('../assets/images/icon_app.png'),
+                title: '加载动画',
+                summary: 'react-native-spinkit',
+                page: 'RnSpinkit'
+            },
+        ]
     }
 ];

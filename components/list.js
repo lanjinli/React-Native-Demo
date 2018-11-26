@@ -1,5 +1,6 @@
 import LinearGradient from 'react-native-linear-gradient';
 import Toast, {DURATION} from 'react-native-easy-toast';
+import * as Animatable from 'react-native-animatable';
 
 import React, { Component } from 'react';
 import {
@@ -46,25 +47,27 @@ export default class ListPage extends Component {
                         backgroundColor: '#fff'
                     }}
                     leftButton={
-                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => (this.props.navigation.goBack())} >
+                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.6} onPress={() => (this.props.navigation.goBack())} >
                             <Image style={{ width: 44, height: 44 }} source={require("../assets/images/icon_back.png")} />
                         </TouchableOpacity>
                     }
                 />
-                <View style={styles.banner}>
-                    <LinearGradient start={{ x: 0.25, y: 0.25 }} end={{ x: 0.75, y: 0.75 }} colors={['#1b4fd5', '#1657da']} style={styles.banner_bg}>
-                        <Image source={data.img} style={styles.banner_img} />
-                        <Text style={styles.banner_text}>{data.summary}</Text>
-                    </LinearGradient>
-                </View>
                 <ScrollView>
+                    <View style={styles.banner}>
+                        <LinearGradient start={{ x: 0.25, y: 0.25 }} end={{ x: 0.75, y: 0.75 }} colors={['#1b4fd5', '#1657da']} style={styles.banner_bg}>
+                            <Animatable.View animation="swing" duration={4000} iterationDelay={1000} iterationCount="infinite" direction="normal">
+                                <Image source={data.img} style={styles.banner_img} />
+                            </Animatable.View>
+                            <Text style={styles.banner_text}>{data.summary}</Text>
+                        </LinearGradient>
+                    </View>
                     <View style={styles.b_list}>
                         {
                             data.children.length ? (
                                 data.children.map((item, index) => {
-                                    return (<TouchableHighlight
+                                    return (<TouchableOpacity
                                         style={styles.b_l_btn}
-                                        activeOpacity={1}
+                                        activeOpacity={0.4}
                                         underlayColor={'white'}
                                         key={index}
                                         onPress={() => {this.pressGetPage(item)}}
@@ -73,7 +76,7 @@ export default class ListPage extends Component {
                                             <Image source={item.img} style={styles.b_l_btn_icon} />
                                             <Text style={styles.b_l_btn_text}>{item.title}</Text>
                                         </View>
-                                    </TouchableHighlight>);
+                                    </TouchableOpacity>);
                                 })
                             ):(
                                 <View style={styles.null}>
@@ -132,12 +135,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingLeft: 20
     },
     banner_img: {
         flex: 0,
         width: 160,
         height: 101,
-        marginLeft: 20
     },
     banner_text: {
         flex: 1,

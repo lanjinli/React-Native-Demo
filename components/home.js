@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+
 import {
     Platform,
     StyleSheet,
@@ -12,7 +13,7 @@ import {
     ScrollView,
     BVLinearGraient,
     StatusBar,
-    NativeModules,
+    NativeModules
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../utils/NavigationBar';
@@ -30,6 +31,10 @@ export default class HomePage extends Component {
         homeList: HomeData
     };
 
+    getPage(name, item) {
+        this.props.navigation.navigate(name, item);
+    }
+
     componentWillMount() {
     }
 
@@ -43,12 +48,12 @@ export default class HomePage extends Component {
                         backgroundColor: '#fff'
                     }}
                     leftButton={
-                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => this.props.navigation.openDrawer()} >
+                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.6} onPress={() => this.props.navigation.openDrawer()} >
                             <Image style={{ width: 44, height: 44 }} source={require("../assets/images/icon_menu.png")} />
                         </TouchableOpacity>
                     }
                     rightButton={
-                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => navigate('Info')} >
+                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.6} onPress={() => navigate('Info')} >
                             <Image style={{ width: 44, height: 44 }} source={require("../assets/images/icon_about.png")} />
                         </TouchableOpacity>
                     }
@@ -61,7 +66,7 @@ export default class HomePage extends Component {
                                     style={styles.b_l_btn}
                                     activeOpacity={0.9}
                                     key={index}
-                                    onPress={() => navigate(item.page, {data: item})}
+                                    onPress={() => {this.getPage(item.page, {data: item})}}
                                 >
                                     <LinearGradient start={{ x: 0.25, y: 0.25 }} end={{ x: 0.75, y: 0.75 }} colors={['#1b4fd5', '#1657da']} style={styles.b_l_t_bg}>
                                         <Image source={item.img} style={styles.b_l_btn_icon} />

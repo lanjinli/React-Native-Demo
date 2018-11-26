@@ -131,7 +131,7 @@ export default class OcrHandwritingocr extends Component {
                         backgroundColor: '#fff'
                     }}
                     leftButton={
-                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.7} onPress={() => this.props.navigation.goBack()} >
+                        <TouchableOpacity style={[styles.NavBarBtn]} activeOpacity={0.6} onPress={() => this.props.navigation.goBack()} >
                             <Image style={{ width: 44, height: 44 }} source={require("../../assets/images/icon_back.png")} />
                         </TouchableOpacity>
                     }

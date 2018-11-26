@@ -147,7 +147,7 @@ export default class OcrHandwritingocr extends Component {
                             activeOpacity={0.9}
                             onPress={this.selectPhotoTapped.bind(this)}
                         >
-                            <Text style={styles.btn_text}>上传图像</Text>
+                            <Text style={styles.btn_text}>选择图像</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

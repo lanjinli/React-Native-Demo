@@ -14,3 +14,7 @@ react-native link
 node_modules\react-native-linear-gradient\android\build.gradle
 把依赖 compileOnly 改成 provided 即可
 
+安装react-native-spinkit出错
+node_modules\react-native-spinkit\android\build.gradle
+compileSdkVersion 25
+buildToolsVersion "25.0.0"

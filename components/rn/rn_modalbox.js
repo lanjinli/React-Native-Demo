@@ -24,7 +24,7 @@ import HttpUtils from '../../utils/httpUtils';
 var screen = Dimensions.get('window');
 
 //定义详情
-export default class OcrHandwritingocr extends Component {
+export default class RnModalbox extends Component {
 
     static navigationOptions = {
         header: () => null

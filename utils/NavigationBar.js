@@ -57,7 +57,6 @@ export default class NavigationBar extends Component {
         }
     }
     componentWillMount() {
-        console.log(this.props.style.backgroundColor)
     }
     render() {
         let status = <View style={[...this.props.style,styles.statusBar]}>

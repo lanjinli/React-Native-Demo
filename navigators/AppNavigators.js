@@ -9,7 +9,6 @@ import InfoPage from '../components/info';
 
 import OcrHandwritingocrPage from '../components/ocr/ocr_handwritingocr';
 import RnModalboxPage from '../components/rn/rn_modalbox';
-import RnSpinkitPage from '../components/rn/rn_spinkitPage';
 
 export const HomeDrawerNavigator = createDrawerNavigator(
     {
@@ -52,9 +51,6 @@ export const AppStackNavigator = createStackNavigator(
         },
         RnModalbox: {
             screen: RnModalboxPage
-        },
-        RnSpinkit: {
-            screen: RnSpinkitPage
         }
     },
     {

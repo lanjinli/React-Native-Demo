@@ -15,10 +15,10 @@ export default class HttpUtils {
         return new Promise((resolve,reject)=>{
             fetch(url,{
                 method: 'POST',
-                header: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+                headers: {
+            　　　　 'Accept': 'application/json',
+            　　　　 'Content-Type': 'application/json',
+        　　　　 },
                 body: JSON.stringify(data)
             })
                 .then(response => response.json())

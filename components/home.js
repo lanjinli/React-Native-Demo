@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-// import LottieView from 'lottie-react-native';
 
 import {
     Platform,
@@ -77,11 +76,6 @@ export default class HomePage extends Component {
                             })
                         }
                     </View>
-                    {/* <LottieView
-                        source={require('../animations/HamburgerArrow.json')}
-                        autoPlay
-                        loop
-                    /> */}
                     <View style={styles.b_foot}>
                         <Text style={styles.b_f_text}>腾讯AI开放平台</Text>
                     </View>

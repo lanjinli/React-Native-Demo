@@ -88,17 +88,17 @@ export const HomeData = [
                 summary: 'react-native-modalbox',
                 page: 'RnModalbox'
             },
-            // {
-            //     img: require('../assets/images/icon_app.png'),
-            //     title: '加载动画',
-            //     summary: 'react-native-spinkit',
-            //     page: 'RnSpinkits'
-            // },
             {
                 img: require('../assets/images/icon_app.png'),
                 title: '选择图像',
                 summary: 'react-native-image-picker',
                 page: 'OcrHandwritingocr'
+            },
+            {
+                img: require('../assets/images/icon_app.png'),
+                title: '列表组件',
+                summary: '',
+                page: 'RnList'
             },
         ]
     }

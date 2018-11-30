@@ -100,6 +100,12 @@ export const HomeData = [
                 summary: '',
                 page: 'RnList'
             },
+            {
+                img: require('../assets/images/icon_app.png'),
+                title: '轮播组件',
+                summary: 'react-native-snap-carousel',
+                page: 'RnSnapCarousel'
+            },
         ]
     }
 ];

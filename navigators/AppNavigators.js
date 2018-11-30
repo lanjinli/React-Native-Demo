@@ -10,6 +10,7 @@ import InfoPage from '../components/info';
 import OcrHandwritingocrPage from '../components/ocr/ocr_handwritingocr';
 import RnModalboxPage from '../components/rn/rn_modalbox';
 import RnListPage from '../components/rn/rn_list';
+import RnSnapCarouselPage from '../components/rn/rn_snap_carousel';
 
 export const HomeDrawerNavigator = createDrawerNavigator(
     {
@@ -55,6 +56,9 @@ export const AppStackNavigator = createStackNavigator(
         },
         RnList: {
             screen: RnListPage
+        },
+        RnSnapCarousel: {
+            screen: RnSnapCarouselPage
         }
     },
     {

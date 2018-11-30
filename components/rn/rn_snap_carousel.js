@@ -154,20 +154,6 @@ export default class rn_snap_carousel extends Component {
                         sliderWidth={width}
                         itemWidth={width - 60}
                         loop={true}
-                        autoplay={true}
-                        inactiveSlideOpacity={1}
-                        inactiveSlideScale={1}
-                        layout={'stack'}
-                    />
-                    <Carousel
-                        data={this.state.ENTRIES2}
-                        renderItem={this._renderItem}
-                        sliderWidth={width}
-                        itemWidth={width - 60}
-                        loop={true}
-                        autoplay={true}
-                        inactiveSlideOpacity={1}
-                        inactiveSlideScale={1}
                         layout={'tinder'}
                     />
                 </ScrollView>

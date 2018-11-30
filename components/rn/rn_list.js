@@ -28,15 +28,20 @@ export default class rn_list extends Component {
         this.state = {
             listData: [],
             currentPage: 1,
-            isLoading: false,
+            isTopLoading: false,
             requestState: true
         };
     }
 
-    _keyExttactor = (item, index) => item.id;
+    _keyExttactor = (item, index) => index.toString();
 
     componentWillMount() {
+        this._isMounted = false
         this.requestApi(1)
+    }
+    
+    componentWillUnmount() {
+        this._isMounted = true
     }
 
     _renderItem (data) {
@@ -46,14 +51,19 @@ export default class rn_list extends Component {
     loadData(){
         console.log('下拉刷新')
         this.setState({
-            isLoading: true
+            isTopLoading: true
         });
         this.requestApi(1)
     }
 
     // 请求接口
     requestApi(page) {
-        if(!this.state.requestState)return
+        if(this._isMounted)return; 
+        if(!this.state.requestState)return; 
+        this.setState({
+            requestState: false
+        })
+        console.log('触发请求')
         let currentPage = page?page:this.state.currentPage;
         HttpUtils.get(`https://route.showapi.com/958-1?page=${currentPage}&showapi_appid=81612&showapi_timestamp=${this.formatterDateTime()}&type=/category/weimanhua/kbmh&showapi_sign=519018cedfec427f9c9bea7f8e814c1b`,)
         .then(result=>{
@@ -65,17 +75,19 @@ export default class rn_list extends Component {
             }else{
                 newData = oldData.concat(result.showapi_res_body.pagebean.contentlist);
             }
+            if(this._isMounted)return; 
             this.setState({
                 listData: newData,
                 currentPage: result.showapi_res_body.pagebean.currentPage + 1,
-                isLoading: false,
+                isTopLoading: false,
                 requestState: true
             })
         })
         .catch(error=>{
             console.log(error);
+            if(this._isMounted)return;
             this.setState({
-                isLoading: false,
+                isTopLoading: false,
                 requestState: true
             })
         })
@@ -120,11 +132,11 @@ export default class rn_list extends Component {
                     data={this.state.listData}
                     keyExtractor={this._keyExttactor}
                     renderItem={(data) => this._renderItem(data)}
-                    refreshing={this.state.isLoading}
+                    refreshing={this.state.isTopLoading}
                     onRefresh={()=>this.loadData()}
                     ListFooterComponent={()=><Text style={styles.listText}>加载中</Text>}
                     onEndReachedThreshold={0.1}
-                    onEndReached={this.requestApi()}
+                    onEndReached={()=>this.requestApi()}
                 />
             </View>
         );

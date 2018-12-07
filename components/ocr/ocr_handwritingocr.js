@@ -26,6 +26,7 @@ export default class OcrHandwritingocr extends Component {
     };
 
     state = {
+        base64: null,
         avatarSource: null,
         videoSource: null,
         viewport_img: {
@@ -60,7 +61,7 @@ export default class OcrHandwritingocr extends Component {
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response);
             if (response.didCancel) {
-                this.refs.toast.show('取消图像选择');
+                // this.refs.toast.show('取消图像选择');
             }
             else if (response.error) {
                 this.refs.toast.show('选择图像出错', response.error);
@@ -82,29 +83,33 @@ export default class OcrHandwritingocr extends Component {
                     imgHeight = width;
                 }
                 this.setState({
+                    base64: response.data,
                     avatarSource: source,
                     viewport_img: {
                         width: imgWidth,
                         height: imgHeight,
                     }
                 });
-                this.requestApi(response.data)
             }
         });
     }
 
     // 请求接口
-    requestApi(base64) {
+    requestApi() {
+
+        if(!this.state.base64){
+            this.refs.toast.show('请先选择图像');
+            return
+        }
+
         let data = {
             "app_id": "2109841751",
             "time_stamp": Math.round(new Date().getTime()/1000).toString(),
             "nonce_str": Math.floor(Math.random()*100000).toString(),
             "sign": "",
-            "image": base64,
+            "image": this.state.base64,
             "image_url": "",
         }
-        console.log(data);
-        console.log('开始请求');
         HttpUtils.post('http://web.lilanjin.top/sign.php',{
             'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
             'params': data
@@ -142,14 +147,24 @@ export default class OcrHandwritingocr extends Component {
                 <ScrollView>
                     <View style={styles.viewport}>
                         <Image style={this.state.viewport_img} source={this.state.avatarSource} />
+                        <View style={styles.choice_wrap}>
+                            <TouchableOpacity
+                                style={styles.choice_btn}
+                                activeOpacity={0.9}
+                                onPress={this.selectPhotoTapped.bind(this)}
+                            >
+                                <Image style={{ width: 22, height: 22, tintColor: '#0f0f0f' }} source={require("../../assets/images/icon_photo.png")} />
+                                <Text style={styles.choice_text}>选择图像</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={styles.button}>
                         <TouchableOpacity
                             style={styles.btn_wrap}
                             activeOpacity={0.9}
-                            onPress={this.selectPhotoTapped.bind(this)}
+                            onPress={this.requestApi.bind(this)}
                         >
-                            <Text style={styles.btn_text}>选择图像</Text>
+                            <Text style={styles.btn_text}>开始识别</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.results}>
@@ -193,13 +208,37 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f6f6',
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'relative'
+    },
+    choice_wrap: {
+        position: 'absolute',
+        bottom: 15,
+        left: 0,
+        right: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    choice_btn: {
+        height: 30,
+        backgroundColor: 'rgba(255,255,255,.5)',
+        borderRadius: 3,
+        paddingHorizontal: 10,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    choice_text: {
+        fontSize: 15,
+        color: '#0f0f0f',
+        marginLeft: 6
     },
     results: {
 
     },
     button: {
         marginHorizontal: 10,
-        marginVertical: 20,
+        marginVertical: 30,
     },
     btn_wrap: {
         height: 44,

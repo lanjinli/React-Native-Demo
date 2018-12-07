@@ -31,7 +31,8 @@ export default class OcrHandwritingocr extends Component {
         viewport_img: {
             width: 0,
             height: 0,
-        }
+        },
+        resultData: null,
     };
 
     // 选择图片
@@ -87,6 +88,7 @@ export default class OcrHandwritingocr extends Component {
                         height: imgHeight,
                     }
                 });
+                this.requestApi(response.data)
             }
         });
     }
@@ -94,30 +96,31 @@ export default class OcrHandwritingocr extends Component {
     // 请求接口
     requestApi(base64) {
         let data = {
-            'app_id': '2109841751',
-            'time_stamp': Math.round(new Date().getTime()/1000).toString(),
-            'nonce_str': Math.floor(Math.random()*100000).toString(),
-            'sign': '',
-            'image': '',
-            'image_url': 'https://yyb.gtimg.com/ai/assets/ai-demo/large/hd-7-lg.jpg',
+            "app_id": "2109841751",
+            "time_stamp": Math.round(new Date().getTime()/1000).toString(),
+            "nonce_str": Math.floor(Math.random()*100000).toString(),
+            "sign": "",
+            "image": base64,
+            "image_url": "",
         }
-        console.log('请求');
+        console.log(data);
+        console.log('开始请求');
         HttpUtils.post('http://web.lilanjin.top/sign.php',{
             'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
             'params': data
         })
         .then(result=>{
-            alert(result)
             console.log(result);
+            this.setState({
+                resultData: result.data
+            });
         })
         .catch(error=>{
-            alert(result)
             console.log(error);
         })
     }
 
     componentDidMount() {
-        // this.requestApi()
     }
 
     render() {
@@ -140,7 +143,6 @@ export default class OcrHandwritingocr extends Component {
                     <View style={styles.viewport}>
                         <Image style={this.state.viewport_img} source={this.state.avatarSource} />
                     </View>
-                    <View style={styles.results}></View>
                     <View style={styles.button}>
                         <TouchableOpacity
                             style={styles.btn_wrap}
@@ -149,6 +151,9 @@ export default class OcrHandwritingocr extends Component {
                         >
                             <Text style={styles.btn_text}>选择图像</Text>
                         </TouchableOpacity>
+                    </View>
+                    <View style={styles.results}>
+                        <Text style={styles.pre}>{JSON.stringify(this.state.resultData)}</Text>
                     </View>
                 </ScrollView>
                 <Toast

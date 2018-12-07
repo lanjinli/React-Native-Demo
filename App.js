@@ -15,7 +15,6 @@ import {
   View,
 } from 'react-native';
 import { hidden } from 'ansi-colors';
-// import Welcome from './components/welcome';
 import { AppStackNavigator } from './navigators/AppNavigators';
 
 export default class App extends Component {

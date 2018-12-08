@@ -62,6 +62,9 @@ export default class OcrHandwritingocr extends Component {
             }
         };
 
+        // showImagePicker 相册与拍照
+        // launchImageLibrary 相册
+        // launchCamera 拍照
         ImagePicker.showImagePicker(options, (response) => {
             if (response.didCancel) {
                 // this.refs.toast.show('取消图像选择');

@@ -106,6 +106,12 @@ export const HomeData = [
                 summary: 'react-native-snap-carousel',
                 page: 'RnSnapCarousel'
             },
+            {
+                img: require('../assets/images/icon_app.png'),
+                title: '对话框',
+                summary: 'react-native-popup-dialog',
+                page: 'RnDialog'
+            }
         ]
     }
 ];

@@ -11,6 +11,7 @@ import OcrHandwritingocrPage from '../components/ocr/ocr_handwritingocr';
 import RnModalboxPage from '../components/rn/rn_modalbox';
 import RnListPage from '../components/rn/rn_list';
 import RnSnapCarouselPage from '../components/rn/rn_snap_carousel';
+import RnDialogPage from '../components/rn/rn_dialog';
 
 export const HomeDrawerNavigator = createDrawerNavigator(
     {
@@ -59,6 +60,9 @@ export const AppStackNavigator = createStackNavigator(
         },
         RnSnapCarousel: {
             screen: RnSnapCarouselPage
+        },
+        RnDialog: {
+            screen: RnDialogPage
         }
     },
     {

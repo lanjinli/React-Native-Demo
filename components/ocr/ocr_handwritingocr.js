@@ -17,6 +17,7 @@ import { hidden } from 'ansi-colors';
 import NavigationBar from '../../utils/NavigationBar';
 import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../../utils/util';
 import HttpUtils from '../../utils/httpUtils';
+import formatJson from '../../utils/formatJson';
 
 //定义详情
 export default class OcrHandwritingocr extends Component {
@@ -35,6 +36,9 @@ export default class OcrHandwritingocr extends Component {
         },
         resultData: null,
     };
+
+    componentDidMount() {
+    }
 
     // 选择图片
     selectPhotoTapped() {
@@ -59,7 +63,6 @@ export default class OcrHandwritingocr extends Component {
         };
 
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
             if (response.didCancel) {
                 // this.refs.toast.show('取消图像选择');
             }
@@ -67,6 +70,9 @@ export default class OcrHandwritingocr extends Component {
                 this.refs.toast.show('选择图像出错', response.error);
             }
             else {
+                this.setState({
+                    resultData: null
+                });
                 // let source = { uri: response.uri };
                 // You can also display the image using data:
                 // this.requestApi(response.data);
@@ -117,7 +123,7 @@ export default class OcrHandwritingocr extends Component {
         .then(result=>{
             console.log(result);
             this.setState({
-                resultData: result.data
+                resultData: result
             });
         })
         .catch(error=>{
@@ -125,7 +131,8 @@ export default class OcrHandwritingocr extends Component {
         })
     }
 
-    componentDidMount() {
+    // 输出结果
+    outputResults() {
     }
 
     render() {
@@ -147,16 +154,13 @@ export default class OcrHandwritingocr extends Component {
                 <ScrollView>
                     <View style={styles.viewport}>
                         <Image style={this.state.viewport_img} source={this.state.avatarSource} />
-                        <View style={styles.choice_wrap}>
-                            <TouchableOpacity
-                                style={styles.choice_btn}
-                                activeOpacity={0.9}
-                                onPress={this.selectPhotoTapped.bind(this)}
-                            >
-                                <Image style={{ width: 22, height: 22, tintColor: '#0f0f0f' }} source={require("../../assets/images/icon_photo.png")} />
-                                <Text style={styles.choice_text}>选择图像</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity
+                            style={styles.choice_btn}
+                            activeOpacity={0.9}
+                            onPress={this.selectPhotoTapped.bind(this)}
+                        >
+                            <Image style={{ width: 26, height: 26, tintColor: '#fff' }} source={require("../../assets/images/icon_photo.png")} />
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.button}>
                         <TouchableOpacity
@@ -167,9 +171,30 @@ export default class OcrHandwritingocr extends Component {
                             <Text style={styles.btn_text}>开始识别</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.results}>
-                        <Text style={styles.pre}>{JSON.stringify(this.state.resultData)}</Text>
-                    </View>
+                        {
+                            this.state.resultData && this.state.resultData.ret == 0 ? (
+                                <View style={styles.results}>
+                                    <View style={styles.TextView}>
+                                    {
+                                        this.state.resultData.data.item_list.map((item, index) => {
+                                            return (<Text style={styles.results_text} key={index}>{index+1}：{item.itemstring}</Text>);
+                                        })
+                                    }
+                                    </View>
+                                    <View style={styles.PreView}>
+                                        <Text style={styles.results_pre}>{this.state.resultData && formatJson(this.state.resultData)}</Text>
+                                    </View>
+                                </View>
+                            ):(
+                                <View style={styles.results}>
+                                    <Text style={styles.results_err_text}>
+                                        {this.state.resultData && this.state.resultData.msg}
+                                        &nbsp;&nbsp;
+                                        {this.state.resultData && 'code:'+this.state.resultData.ret}
+                                    </Text>
+                                </View>
+                            )
+                        }
                 </ScrollView>
                 <Toast
                     ref="toast"
@@ -210,35 +235,52 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'relative'
     },
-    choice_wrap: {
-        position: 'absolute',
-        bottom: 15,
-        left: 0,
-        right: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     choice_btn: {
-        height: 30,
-        backgroundColor: 'rgba(255,255,255,.5)',
-        borderRadius: 3,
-        paddingHorizontal: 10,
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        height: 38,
+        width: 38,
+        backgroundColor: 'rgba(0,0,0,.3)',
+        borderRadius: 24,
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    choice_text: {
-        fontSize: 15,
-        color: '#0f0f0f',
-        marginLeft: 6
     },
     results: {
-
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+    },
+    TextView: {
+        backgroundColor: '#ebecec',
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+    },
+    PreView: {
+        backgroundColor: '#fff',
+        paddingVertical: 10,
+    },
+    results_text: {
+        fontSize: 14,
+        paddingVertical: 2,
+        lineHeight: 24,
+    },
+    results_pre: {
+        fontSize: 14,
+        paddingVertical: 3,
+        lineHeight: 20,
+    },
+    results_err_text: {
+        fontSize: 14,
+        paddingHorizontal: 6,
+        lineHeight: 28,
+        textAlign: 'center',
     },
     button: {
         marginHorizontal: 10,
-        marginVertical: 30,
+        marginTop: 30,
+        marginBottom: 20,
     },
     btn_wrap: {
         height: 44,

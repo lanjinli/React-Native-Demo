@@ -10,25 +10,13 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { hidden } from 'ansi-colors';
-const Demensions = require('Dimensions');
-const { width, height } = Demensions.get('window');
-const { StatusBarManager } = NativeModules;
-const STATUS_BAR_HEIGHT = Platform.select({
-    ios: 20,
-    android: StatusBarManager.HEIGHT
-});
-const NAVBSR_HEIGHT = Platform.select({
-    ios: 44,
-    android: 50,
-});
+import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
 const StatusBarShape={
     backgroundColor: PropTypes.string,
     barStyle: PropTypes.oneOf(['default', 'light-content', 'dark-content']),
     hidden: PropTypes.bool
 }
 
-
-//定义列表
 export default class NavigationBar extends Component {
     static propTypes={
         style: View.propTypes.style,

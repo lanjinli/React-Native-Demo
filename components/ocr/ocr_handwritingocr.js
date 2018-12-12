@@ -44,6 +44,9 @@ export default class OcrHandwritingocr extends Component {
 
     // 选择图片
     selectPhotoTapped(type) {
+
+        if(this.state.readImg){return}
+
         this.setState({
             readImg: true,
         });

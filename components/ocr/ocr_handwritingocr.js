@@ -12,6 +12,7 @@ import {
     TouchableHighlight,
     Image,
     ScrollView,
+    ActivityIndicator
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../../utils/NavigationBar';
@@ -35,13 +36,18 @@ export default class OcrHandwritingocr extends Component {
             height: 0,
         },
         resultData: null,
+        readImg: false,
     };
 
     componentDidMount() {
     }
 
     // 选择图片
-    selectPhotoTapped() {
+    selectPhotoTapped(type) {
+        this.setState({
+            readImg: true,
+        });
+
         const options = {
             title: '', 
             cancelButtonTitle: '取消',
@@ -65,17 +71,15 @@ export default class OcrHandwritingocr extends Component {
         // showImagePicker 相册与拍照
         // launchImageLibrary 相册
         // launchCamera 拍照
-        ImagePicker.showImagePicker(options, (response) => {
+        ImagePicker[type](options, (response) => {
+            this.setState({
+                readImg: false,
+            });
             if (response.didCancel) {
                 // this.refs.toast.show('取消图像选择');
-            }
-            else if (response.error) {
+            } else if (response.error) {
                 this.refs.toast.show('选择图像出错', response.error);
-            }
-            else {
-                this.setState({
-                    resultData: null
-                });
+            } else {
                 // let source = { uri: response.uri };
                 // You can also display the image using data:
                 // this.requestApi(response.data);
@@ -156,14 +160,29 @@ export default class OcrHandwritingocr extends Component {
                 />
                 <ScrollView>
                     <View style={styles.viewport}>
-                        <Image style={this.state.viewport_img} source={this.state.avatarSource} />
-                        <TouchableOpacity
-                            style={styles.choice_btn}
-                            activeOpacity={0.9}
-                            onPress={this.selectPhotoTapped.bind(this)}
-                        >
-                            <Image style={{ width: 26, height: 26, tintColor: '#fff' }} source={require("../../assets/images/icon_photo.png")} />
-                        </TouchableOpacity>
+                        <Image style={this.state.viewport_img} source={this.state.avatarSource} onLoad={()=>{this.setState({readImg: false})}}/>
+                        {this.state.readImg && <ActivityIndicator
+                            style={styles.imgLoad}
+                            color='#abacac'
+                            animating={this.state.readImg}
+                            size="small"
+                        />}
+                        <View style={styles.choice_wrap}>
+                            <TouchableOpacity
+                                style={styles.choice_btn}
+                                activeOpacity={0.8}
+                                onPress={() => {this.selectPhotoTapped('launchCamera')}}
+                            >
+                                <Image style={{ width: 26, height: 26, tintColor: '#fff' }} source={require("../../assets/images/icon_camera.png")} />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.choice_btn}
+                                activeOpacity={0.8}
+                                onPress={() => {this.selectPhotoTapped('launchImageLibrary')}}
+                            >
+                                <Image style={{ width: 26, height: 26, tintColor: '#fff' }} source={require("../../assets/images/icon_photo.png")} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={styles.button}>
                         <TouchableOpacity
@@ -238,10 +257,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'relative'
     },
-    choice_btn: {
+    imgLoad: {
+        position: 'absolute',
+        top: width/2 - 10,
+        left: width/2 - 10,
+        width: 20,
+        height: 20,
+        zIndex: 1,
+    },
+    choice_wrap: {
+        width: 38,
         position: 'absolute',
         bottom: 10,
         right: 10,
+        width: 38,
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    choice_btn: {
         height: 38,
         width: 38,
         backgroundColor: 'rgba(0,0,0,.3)',
@@ -250,6 +285,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 10,
     },
     results: {
         paddingHorizontal: 10,

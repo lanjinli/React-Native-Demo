@@ -1,5 +1,5 @@
 import ImagePicker from 'react-native-image-picker';
-import Toast, {DURATION} from 'react-native-easy-toast';
+// import Toast, {DURATION} from 'react-native-easy-toast';
 import * as Animatable from 'react-native-animatable';
 
 import React, { Component } from 'react';
@@ -13,13 +13,17 @@ import {
     TouchableHighlight,
     Image,
     ScrollView,
-    ActivityIndicator
+    ActivityIndicator,
+    BackHandler
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../../utils/NavigationBar';
 import {width, height, scale, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../../utils/util';
 import HttpUtils from '../../utils/httpUtils';
 import formatJson from '../../utils/formatJson';
+
+
+import Toast from 'react-native-root-toast';
 
 //定义详情
 export default class OcrHandwritingocr extends Component {
@@ -28,20 +32,58 @@ export default class OcrHandwritingocr extends Component {
         header: () => null
     };
 
-    state = {
-        base64: null,
-        avatarSource: null,
-        videoSource: null,
-        viewport_img: {
-            width: 0,
-            height: 0,
-        },
-        resultData: null,
-        readImg: false,
-        requestStatus: false
-    };
+    constructor() {
+        super();
+        this.state = {
+            base64: null,
+            avatarSource: null,
+            videoSource: null,
+            viewport_img: {
+                width: 0,
+                height: 0,
+            },
+            resultData: null,
+            readImg: false,
+            requestStatus: false,
+            visible: false,
+        };
+    }
+    
 
     componentDidMount() {
+        // Add a Toast on screen.
+        let toast = Toast.show('This is a message', {
+            duration: 10000,
+            position: Toast.positions.BOTTOM,
+            animation: true,
+            shadow: false,
+            backgroundColor: 'rgba(0,0,0,.8)',
+            hideOnPress: true,
+            delay: 0,
+            opacity: 1,
+            containerStyle: {
+                paddingHorizontal: 10,
+                paddingVertical: 6,
+                borderRadius: 3,
+            },
+            textStyle: {
+                fontSize: 14,
+                lineHeight: 18,
+            },
+            onShow: () => {
+            },
+            onShown: () => {
+            },
+            onHide: () => {
+            },
+            onHidden: () => {
+            }
+        });
+
+        // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+        // setTimeout(function () {
+        //     Toast.hide(toast);
+        // }, 5000);
     }
 
     // 选择图片
@@ -118,7 +160,7 @@ export default class OcrHandwritingocr extends Component {
         if(this.state.requestStatus)return
 
         if(!this.state.base64){
-            this.refs.toast.show('请先选择图像');
+            // this.refs.toast.show('请先选择图像');
             return
         }
 
@@ -134,25 +176,56 @@ export default class OcrHandwritingocr extends Component {
             "image": this.state.base64,
             "image_url": "",
         }
-        console.log('load');
         HttpUtils.post('http://web.lilanjin.top/sign.php',{
             'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
             'params': data
         })
         .then(result=>{
-            console.log(result);
-            this.setState({
-                resultData: result,
-                requestStatus: false
-            });
+            console.log('回调');
+            if(this.state.requestStatus){
+                if(this._isMounted)return;
+                console.log(result);
+                this.setState({
+                    resultData: result,
+                    requestStatus: false
+                });
+            }
         })
         .catch(error=>{
             console.log(error);
+            if(this._isMounted)return;
             this.setState({
                 requestStatus: false
             });
         })
     }
+
+    // 初始化 绑定返回
+    componentWillMount() {
+        this._isMounted = true;
+        if (Platform.OS === 'android') {
+            this.listener = BackHandler.addEventListener('hardwareBackPress', this.cancelRequest);
+        }
+    }
+
+    // 销毁 取消返回
+    componentWillUnmount() {
+        this._isMounted = false;
+        if (Platform.OS === 'android') {
+            this.listener.remove('hardwareBackPress');
+        }
+    }
+
+    // 取消请求
+    cancelRequest = () => {
+        if(this.state.requestStatus){
+            this.setState({
+                requestStatus: false
+            });
+            return true;
+        }
+        return false;
+    };
 
     render() {
         const { data } = this.props.navigation.state.params;
@@ -201,15 +274,13 @@ export default class OcrHandwritingocr extends Component {
                         </View>
                     </View>
                     <View style={styles.button}>
-                        {/* <Animatable.View animation="slideInDown" easing="ease-out" iterationCount={1} duration={1000}> */}
-                            <TouchableOpacity
-                                style={styles.btn_wrap}
-                                activeOpacity={0.9}
-                                onPress={this.requestApi.bind(this)}
-                            >
-                                <Text style={styles.btn_text}>开始识别 {height}</Text>
-                            </TouchableOpacity>
-                        {/* </Animatable.View> */}
+                        <TouchableOpacity
+                            style={styles.btn_wrap}
+                            activeOpacity={0.9}
+                            onPress={this.requestApi.bind(this)}
+                        >
+                            <Text style={styles.btn_text}>开始识别</Text>
+                        </TouchableOpacity>
                     </View>
                     {
                         this.state.resultData && this.state.resultData.ret == 0 ? (
@@ -237,7 +308,7 @@ export default class OcrHandwritingocr extends Component {
                     }
                 </ScrollView>
                 {
-                    this.state.requestStatus && <View style={styles.requestStatusView}>
+                    this.state.requestStatus && <Animatable.View style={styles.requestStatusView} animation="fadeInUp" easing="ease-out" iterationCount={1} duration={300}>
                         <View style={styles.requestStatusContentView}>
                             <ActivityIndicator
                                 style={styles.requestLoad}
@@ -247,16 +318,8 @@ export default class OcrHandwritingocr extends Component {
                             />
                             <Text style={styles.requestText}>正在识别</Text>
                         </View>
-                    </View>
+                    </Animatable.View>
                 }
-                <Toast
-                    ref="toast"
-                    style={styles.toast}
-                    position='bottom'
-                    positionValue={30}
-                    fadeInDuration={200}
-                    fadeOutDuration={100}
-                />
             </View>
         );
     }
@@ -290,18 +353,23 @@ const styles = StyleSheet.create({
         height: height - (STATUS_BAR_HEIGHT + NAVBSR_HEIGHT),
         top: STATUS_BAR_HEIGHT + NAVBSR_HEIGHT,
         left: 0,
-        backgroundColor: 'rgba(0,0,0,.5)',
-        flex: 1,
     },
     requestStatusContentView: {
+        position: 'absolute',
+        left: width/2 - 50,
+        top: (height - (STATUS_BAR_HEIGHT + NAVBSR_HEIGHT))/2 - 100,
         paddingLeft: 18,
         paddingRight: 18,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,.65)',
+        borderRadius: 4,
+        width: 100,
+        height: 100,
     },
     requestLoad: {
-        paddingHorizontal: 30,
-        paddingVertical: 30,
+        paddingHorizontal: 25,
+        paddingVertical: 25,
     },
     requestText: {
         color: '#fff',

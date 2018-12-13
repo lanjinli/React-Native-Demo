@@ -13,7 +13,9 @@ import {
     ScrollView,
     BVLinearGraient,
     StatusBar,
-    NativeModules
+    NativeModules,
+    ToastAndroid,
+    BackHandler
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../utils/NavigationBar';
@@ -34,9 +36,23 @@ export default class HomePage extends Component {
     getPage(name, item) {
         this.props.navigation.navigate(name, item);
     }
-
-    componentWillMount() {
+    
+    componentWillMount(){
+        BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+    onBackAndroid = () => {
+        if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+            //最近2秒内按过back键，可以退出应用。
+            BackHandler.exitApp();
+            return;
+        }
+        this.lastBackPressed = Date.now();
+        ToastAndroid.show('再按一次退出应用',ToastAndroid.SHORT);
+        return true;
+    };
 
     render() {
         const { navigate } = this.props.navigation;

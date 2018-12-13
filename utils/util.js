@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 export const Demensions = require('Dimensions');
-export const { width, height } = Demensions.get('window');
+export const { width, height, scale } = Demensions.get('window');
 
 const X_WIDTH = 375;
 const X_HEIGHT = 812;

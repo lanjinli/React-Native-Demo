@@ -276,6 +276,7 @@ export default class RnDialog extends Component {
                         width={110}
                         height={110}
                         visible={this.state.setCustomBackgroundDialog}
+                        dialogAnimation={new SlideAnimation({ slideFrom: 'bottom' })}
                     >
                         <View style={styles.dialogContentView}>
                             <Text style={{ color: '#fff' }}>Custom backgroundStyle</Text>

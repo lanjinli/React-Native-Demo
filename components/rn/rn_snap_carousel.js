@@ -174,12 +174,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    toast: {
-        backgroundColor: 'rgba(0,0,0,.7)',
-        borderRadius: 4,
-        paddingHorizontal: 10,
-        paddingVertical: 6
-    },
     ScrollView: {
         backgroundColor: '#edf1f7'
     },

@@ -1,5 +1,4 @@
 import ImagePicker from 'react-native-image-picker';
-// import Toast, {DURATION} from 'react-native-easy-toast';
 import * as Animatable from 'react-native-animatable';
 
 import React, { Component } from 'react';
@@ -18,12 +17,9 @@ import {
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../../utils/NavigationBar';
-import {width, height, scale, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../../utils/util';
+import {width, height, scale, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT, toastUtil} from '../../utils/util';
 import HttpUtils from '../../utils/httpUtils';
 import formatJson from '../../utils/formatJson';
-
-
-import Toast from 'react-native-root-toast';
 
 //定义详情
 export default class OcrHandwritingocr extends Component {
@@ -51,39 +47,6 @@ export default class OcrHandwritingocr extends Component {
     
 
     componentDidMount() {
-        // Add a Toast on screen.
-        let toast = Toast.show('This is a message', {
-            duration: 10000,
-            position: Toast.positions.BOTTOM,
-            animation: true,
-            shadow: false,
-            backgroundColor: 'rgba(0,0,0,.8)',
-            hideOnPress: true,
-            delay: 0,
-            opacity: 1,
-            containerStyle: {
-                paddingHorizontal: 10,
-                paddingVertical: 6,
-                borderRadius: 3,
-            },
-            textStyle: {
-                fontSize: 14,
-                lineHeight: 18,
-            },
-            onShow: () => {
-            },
-            onShown: () => {
-            },
-            onHide: () => {
-            },
-            onHidden: () => {
-            }
-        });
-
-        // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-        // setTimeout(function () {
-        //     Toast.hide(toast);
-        // }, 5000);
     }
 
     // 选择图片
@@ -156,11 +119,12 @@ export default class OcrHandwritingocr extends Component {
 
     // 请求接口
     requestApi() {
+        this._isMounted = true;
 
         if(this.state.requestStatus)return
 
         if(!this.state.base64){
-            // this.refs.toast.show('请先选择图像');
+            toastUtil('请先选择图像');
             return
         }
 
@@ -181,19 +145,21 @@ export default class OcrHandwritingocr extends Component {
             'params': data
         })
         .then(result=>{
-            console.log('回调');
             if(this.state.requestStatus){
-                if(this._isMounted)return;
-                console.log(result);
-                this.setState({
-                    resultData: result,
-                    requestStatus: false
-                });
+                if(!this._isMounted)return;
+                if(typeof result == "object"){
+                    this.setState({
+                        resultData: result,
+                        requestStatus: false
+                    });
+                }else{
+                    toastUtil('请求失败，未知错误');
+                }
+                
             }
         })
         .catch(error=>{
-            console.log(error);
-            if(this._isMounted)return;
+            if(!this._isMounted)return;
             this.setState({
                 requestStatus: false
             });
@@ -253,7 +219,7 @@ export default class OcrHandwritingocr extends Component {
                             size="small"
                         />}
                         <View style={styles.choice_wrap}>
-                            <Animatable.View style={{marginTop: 10, height: 38, width: 38}} animation="zoomIn" duration={1000} easing="ease-out" iterationCount={1}>
+                            <Animatable.View style={{marginTop: 10, height: 38, width: 38}} animation="fadeInRight" duration={500} delay={400} easing="ease-out" iterationCount={1}>
                                 <TouchableOpacity
                                     style={[styles.choice_btn]}
                                     activeOpacity={0.8}
@@ -262,7 +228,7 @@ export default class OcrHandwritingocr extends Component {
                                         <Image style={{ width: 26, height: 26, tintColor: '#fff' }} source={require("../../assets/images/icon_camera.png")} />
                                 </TouchableOpacity>
                             </Animatable.View>
-                            <Animatable.View style={{marginTop: 10, height: 38, width: 38}} animation="zoomIn" duration={1000} easing="ease-out" iterationCount={1}>
+                            <Animatable.View style={{marginTop: 10, height: 38, width: 38}} animation="fadeInRight" duration={500} delay={320} easing="ease-out" iterationCount={1}>
                                 <TouchableOpacity
                                     style={styles.choice_btn}
                                     activeOpacity={0.8}
@@ -337,12 +303,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    toast: {
-        backgroundColor: 'rgba(0,0,0,.7)',
-        borderRadius: 4,
-        paddingHorizontal: 10,
-        paddingVertical: 6
-    },
     requestStatusDialog: {
         opacity: 0.5,
         backgroundColor: '#000',
@@ -368,13 +328,14 @@ const styles = StyleSheet.create({
         height: 100,
     },
     requestLoad: {
-        paddingHorizontal: 25,
-        paddingVertical: 25,
+        paddingHorizontal: 20,
+        paddingVertical: 20,
     },
     requestText: {
         color: '#fff',
         fontSize: 15,
         textAlign: 'center',
+        marginBottom: 5,
     },
     viewport: {
         width: width,

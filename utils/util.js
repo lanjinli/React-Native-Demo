@@ -4,7 +4,7 @@ import {
     PixelRatio,
     NativeModules
 } from 'react-native';
-// import ExtraDimensions from 'react-native-extra-dimensions-android';
+import Toast from 'react-native-root-toast';
 
 export const Demensions = require('Dimensions');
 export const { width, height, scale } = Demensions.get('screen');
@@ -36,19 +36,28 @@ export const NAVBSR_HEIGHT = Platform.select({
     android: 50,
 });
 
-// export const {
-//     REAL_WINDOW_HEIGHT,
-//     REAL_WINDOW_WIDTH,
-//     STATUS_BAR_HEIGHT,
-//     SOFT_MENU_BAR_HEIGHT,
-//     SMART_BAR_HEIGHT
-// } = [
-//     ExtraDimensions.get('REAL_WINDOW_HEIGHT'),
-//     ExtraDimensions.get('REAL_WINDOW_WIDTH'),
-//     ExtraDimensions.get('STATUS_BAR_HEIGHT'),
-//     ExtraDimensions.get('SOFT_MENU_BAR_HEIGHT'),
-//     ExtraDimensions.get('SMART_BAR_HEIGHT'),
-// ]
-
-// export const REAL_WINDOW_HEIGHT = ExtraDimensions.get('REAL_WINDOW_HEIGHT');
-// console.log(REAL_WINDOW_HEIGHT)
+let toast;
+export const toastUtil = (content, time = 'SHORT') => {
+    if (toast !== undefined) {
+      Toast.hide(toast);
+    }
+    toast = Toast.show(content.toString(), {
+        duration: Toast.durations[time],
+        position: Toast.positions.BOTTOM,
+        animation: true,
+        shadow: false,
+        backgroundColor: 'rgba(0,0,0,.8)',
+        hideOnPress: true,
+        delay: 0,
+        opacity: 1,
+        containerStyle: {
+            paddingHorizontal: 10,
+            paddingVertical: 6,
+            borderRadius: 3,
+        },
+        textStyle: {
+            fontSize: 14,
+            lineHeight: 18,
+        },
+    });
+};

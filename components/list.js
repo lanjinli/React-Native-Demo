@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../utils/NavigationBar';
-import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
+import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT, toastUtil} from '../utils/util';
 
 //定义列表
 export default class ListPage extends Component {
@@ -33,7 +33,7 @@ export default class ListPage extends Component {
         if(item.page){
             this.props.navigation.navigate(item.page, {data: item});
         }else{
-            this.refs.toast.show('正在开发中，敬请期待');
+            toastUtil('正在开发中，敬请期待')
         }
     };
 
@@ -94,14 +94,6 @@ export default class ListPage extends Component {
                         ):false
                     }
                 </ScrollView>
-                <Toast
-                    ref="toast"
-                    style={styles.toast}
-                    position='bottom'
-                    positionValue={30}
-                    fadeInDuration={200}
-                    fadeOutDuration={100}
-                />
             </View>
         );
     }
@@ -118,12 +110,6 @@ const styles = StyleSheet.create({
         height: NAVBSR_HEIGHT,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    toast: {
-        backgroundColor: 'rgba(0,0,0,.7)',
-        borderRadius: 4,
-        paddingHorizontal: 10,
-        paddingVertical: 6
     },
     banner: {
         height: 150,

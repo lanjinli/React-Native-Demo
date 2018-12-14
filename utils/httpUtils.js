@@ -21,7 +21,13 @@ export default class HttpUtils {
         　　　　 },
                 body: JSON.stringify(data)
             })
-                .then(response =>response.json())
+                .then(response =>{
+                    try {
+                        return response.json()
+                    }catch(error) {
+                        reject(error);
+                    }
+                })
                 .then(result=>{
                     console.log(result);
                     resolve(result);

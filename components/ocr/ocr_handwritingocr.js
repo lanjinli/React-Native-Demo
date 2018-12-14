@@ -44,10 +44,6 @@ export default class OcrHandwritingocr extends Component {
             visible: false,
         };
     }
-    
-
-    componentDidMount() {
-    }
 
     // 选择图片
     selectPhotoTapped(type) {
@@ -153,7 +149,7 @@ export default class OcrHandwritingocr extends Component {
                         requestStatus: false
                     });
                 }else{
-                    toastUtil('请求失败，未知错误');
+                    toastUtil('识别失败，未知错误');
                 }
                 
             }
@@ -161,24 +157,30 @@ export default class OcrHandwritingocr extends Component {
         .catch(error=>{
             if(!this._isMounted)return;
             this.setState({
+                resultData: false,
                 requestStatus: false
             });
+            toastUtil('识别失败，未知错误');
         })
     }
 
-    // 初始化 绑定返回
+    // 绑定返回
     componentWillMount() {
         this._isMounted = true;
         if (Platform.OS === 'android') {
-            this.listener = BackHandler.addEventListener('hardwareBackPress', this.cancelRequest);
+            this._didFocusSubscription = this.props.navigation.addListener('didFocus', payload =>
+                BackHandler.addEventListener('hardwareBackPress', this.cancelRequest)
+            );
         }
     }
-
-    // 销毁 取消返回
-    componentWillUnmount() {
+    
+    // 取消返回
+    componentDidMount() {
         this._isMounted = false;
         if (Platform.OS === 'android') {
-            this.listener.remove('hardwareBackPress');
+            this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+                BackHandler.removeEventListener('hardwareBackPress', this.cancelRequest)
+            );
         }
     }
 
@@ -245,7 +247,7 @@ export default class OcrHandwritingocr extends Component {
                             activeOpacity={0.9}
                             onPress={this.requestApi.bind(this)}
                         >
-                            <Text style={styles.btn_text}>开始识别</Text>
+                            <Text style={styles.btn_text}>识别 {data.title}</Text>
                         </TouchableOpacity>
                     </View>
                     {

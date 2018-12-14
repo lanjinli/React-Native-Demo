@@ -14,12 +14,11 @@ import {
     BVLinearGraient,
     StatusBar,
     NativeModules,
-    ToastAndroid,
     BackHandler
 } from 'react-native';
 import { hidden } from 'ansi-colors';
 import NavigationBar from '../utils/NavigationBar';
-import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT} from '../utils/util';
+import {width, height, Demensions, STATUS_BAR_HEIGHT, NAVBSR_HEIGHT, toastUtil} from '../utils/util';
 import {HomeData} from '../utils/config';
 
 //定义首页
@@ -29,30 +28,37 @@ export default class HomePage extends Component {
         header: () => null
     };
 
-    state = {
-        homeList: HomeData
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            homeList: HomeData
+        };
+        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+            BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        );
+    }
+
+    componentDidMount() {
+        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+          BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        );
+    }
+
+    onBackButtonPressAndroid = () => {
+        if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+            //最近2秒内按过back键，可以退出应用。
+            BackHandler.exitApp();
+            return;
+        }
+        this.lastBackPressed = Date.now();
+        toastUtil('再按一次退出应用');
+        return true;
     };
 
     getPage(name, item) {
         this.props.navigation.navigate(name, item);
     }
-    
-    // componentWillMount(){
-    //     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
-    // }
-    // componentWillUnmount() {
-    //     BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
-    // }
-    // onBackAndroid = () => {
-    //     if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
-    //         //最近2秒内按过back键，可以退出应用。
-    //         BackHandler.exitApp();
-    //         return;
-    //     }
-    //     this.lastBackPressed = Date.now();
-    //     ToastAndroid.show('再按一次退出应用',ToastAndroid.SHORT);
-    //     return true;
-    // };
 
     render() {
         const { navigate } = this.props.navigation;

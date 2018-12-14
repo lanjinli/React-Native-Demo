@@ -22,7 +22,7 @@ import HttpUtils from '../../utils/httpUtils';
 import formatJson from '../../utils/formatJson';
 
 //定义详情
-export default class OcrHandwritingocr extends Component {
+export default class OcrGeneralocr extends Component {
 
     static navigationOptions = {
         header: () => null
@@ -65,7 +65,7 @@ export default class OcrHandwritingocr extends Component {
             durationLimit: 10, 
             // maxWidth: 300,
             // maxHeight: 300,
-            quality: 0.8,
+            quality: 0.8, 
             angle: 0,
             allowsEditing: false, 
             noData: false,
@@ -134,16 +134,16 @@ export default class OcrHandwritingocr extends Component {
             "nonce_str": Math.floor(Math.random()*100000).toString(),
             "sign": "",
             "image": this.state.base64,
-            "image_url": "",
         }
         HttpUtils.post('http://web.lilanjin.top/sign.php',{
-            'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_handwritingocr',
+            'url': 'https://api.ai.qq.com/fcgi-bin/ocr/ocr_generalocr',
             'params': data
         })
         .then(result=>{
             if(this.state.requestStatus){
                 if(!this._isMounted)return;
                 if(typeof result == "object"){
+                    toastUtil('识别成功');
                     this.setState({
                         resultData: result,
                         requestStatus: false

@@ -8,6 +8,9 @@ import ListPage from '../components/list';
 import InfoPage from '../components/info';
 
 import OcrHandwritingocrPage from '../components/ocr/ocr_handwritingocr';
+import OcrGeneralocrPage from '../components/ocr/ocr_generalocr';
+import OcrIdcardocrPage from '../components/ocr/ocr_idcardocr';
+
 import RnModalboxPage from '../components/rn/rn_modalbox';
 import RnListPage from '../components/rn/rn_list';
 import RnSnapCarouselPage from '../components/rn/rn_snap_carousel';
@@ -38,19 +41,25 @@ export const HomeDrawerNavigator = createDrawerNavigator(
 export const AppStackNavigator = createStackNavigator(
     {
         Welcome: {
-            screen: WelcomePage,
+            screen: WelcomePage
         },
         HomeDrawerNav: {
-            screen: HomeDrawerNavigator,
+            screen: HomeDrawerNavigator
         },
         List: {
-            screen: ListPage,
+            screen: ListPage
         },
         Info: {
-            screen: InfoPage,
+            screen: InfoPage
         },
         OcrHandwritingocr: {
-            screen: OcrHandwritingocrPage,
+            screen: OcrHandwritingocrPage
+        },
+        OcrGeneralocr: {
+            screen: OcrGeneralocrPage
+        },
+        OcrIdcardocr: {
+            screen: OcrIdcardocrPage
         },
         RnModalbox: {
             screen: RnModalboxPage

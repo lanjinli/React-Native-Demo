@@ -15,15 +15,13 @@ export const HomeData = [
                 img: require('../assets/images/icon_ocr_02.png'),
                 title: '通用OCR',
                 summary: '识别上传图像上面的字段信息',
-                // page: 'OcrGeneralocr',
-                page: ''
+                page: 'OcrGeneralocr',
             },
             {
                 img: require('../assets/images/icon_ocr_03.png'),
                 title: '身份证OCR',
                 summary: '识别身份证图像上面的详细身份信息',
-                // page: 'OcrIdcardocr',
-                page: ''
+                page: 'OcrIdcardocr',
             },
             {
                 img: require('../assets/images/icon_ocr_04.png'),

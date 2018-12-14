@@ -1,5 +1,4 @@
 import LinearGradient from 'react-native-linear-gradient';
-import Toast, {DURATION} from 'react-native-easy-toast';
 import * as Animatable from 'react-native-animatable';
 
 import React, { Component } from 'react';
